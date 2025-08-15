@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36" version="28.0.7">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36" version="28.1.0">
   <diagram name="Страница — 1" id="tIC_WZ9eXxZFpHUOUbRm">
     <mxGraphModel dx="1869" dy="535" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -85,7 +85,7 @@
         <mxCell id="h_-lFZCpEvTqEN1pMqpe-18" value="программирование класса родителя" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" parent="1" vertex="1">
           <mxGeometry x="660" y="750" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="cspzs5Am_i9SIenbNEfv-2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="h_-lFZCpEvTqEN1pMqpe-19" target="cspzs5Am_i9SIenbNEfv-1">
+        <mxCell id="cspzs5Am_i9SIenbNEfv-2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="h_-lFZCpEvTqEN1pMqpe-19" target="cspzs5Am_i9SIenbNEfv-1" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="h_-lFZCpEvTqEN1pMqpe-19" value="программирование классов растений и зомби" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" parent="1" vertex="1">
@@ -124,17 +124,38 @@
         <mxCell id="Z3wOupk7eeq7DRk69V82-1" value="программирование условий победы и поражения" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="60" y="780" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="cspzs5Am_i9SIenbNEfv-1" value="программирование механики здоровья" style="whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;rounded=0;" vertex="1" parent="1">
+        <mxCell id="cspzs5Am_i9SIenbNEfv-1" value="программирование механики здоровья" style="whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="350" y="790" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="cspzs5Am_i9SIenbNEfv-3" value="атака деревьев" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+        <mxCell id="cspzs5Am_i9SIenbNEfv-3" value="атака деревьев" style="whiteSpace=wrap;html=1;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="660" y="920" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="cspzs5Am_i9SIenbNEfv-5" value="исправить то, что пули исчезают после смерти" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="60" y="890" width="120" height="60" as="geometry" />
+        <mxCell id="cspzs5Am_i9SIenbNEfv-5" value="исправить то, что пули исчезают после смерти" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="50" y="880" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="cspzs5Am_i9SIenbNEfv-6" value="дизайн деревьев/бобров" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="60" y="980" width="120" height="60" as="geometry" />
+        <mxCell id="cspzs5Am_i9SIenbNEfv-6" value="дизайн деревьев/бобров" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="660" y="1010" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="4evCncEgxPiiOP-QGZJD-3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="4evCncEgxPiiOP-QGZJD-1" target="4evCncEgxPiiOP-QGZJD-2" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4evCncEgxPiiOP-QGZJD-1" value="сделать механику размещения растения" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="350" y="960" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="4evCncEgxPiiOP-QGZJD-2" value="размещение" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="350" y="1060" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="4evCncEgxPiiOP-QGZJD-6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="4evCncEgxPiiOP-QGZJD-4" target="4evCncEgxPiiOP-QGZJD-5" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4evCncEgxPiiOP-QGZJD-4" value="отладка задержки пуль у деревьев" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="660" y="1080" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="4evCncEgxPiiOP-QGZJD-5" value="после отладки реализовать у бобров" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="660" y="1170" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="FzAQwwyJcnLsBKYegu79-1" value="1) Создать прямоугольник на который мы будем нажимать и после этого сажать деревья&lt;div&gt;2) очертить область для сажания деревьев&lt;/div&gt;&lt;div&gt;3) сделать перезарядку для сажания деревьев&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="-290" y="960" width="200" height="130" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
