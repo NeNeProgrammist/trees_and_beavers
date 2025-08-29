@@ -46,7 +46,7 @@ class TreesBullets(Parent_class):
 
     def update(self):
         self.rect.x += self.speed
-        if self.rect.x > 1300:
+        if self.rect.x > 1700:
             self.kill()
 
 bullets_trees = pygame.sprite.Group()
@@ -66,11 +66,12 @@ class Beaver(Parent_class):
             self.kill()
 
     def fire1(self):
-        if tm.time() - self.start_time >= 1:
-            if shoting == False:
-                bullet = Bullets("bullet.png", 30, 6, self.rect.x, self.rect.y, 4, 100)
-                bullets_enemy.add(bullet)
-            self.start_time = tm.time()
+        if self.health > 0:
+            if tm.time() - self.start_time >= 1:
+                if shoting == False:
+                    bullet = Bullets("bullet.png", 30, 6, self.rect.x, self.rect.y, 4, 100)
+                    bullets_enemy.add(bullet)
+                self.start_time = tm.time()
 
 
 
@@ -92,13 +93,10 @@ class Seed(Parent_class):
         self.rect.y = pos_y
         self.mask = pygame.mask.from_surface(self.image)
 
-    def plant(self):
-        if self.rect.collidepoint(pygame.mouse.get_pos()) and event.type == pygame.KEYDOWN:     #!доделать
-            seed2 = Seed("seeds1.png", 60, 60, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], 1000)
-
 
 seed1 = Seed("seed1.png", 60, 60, 100, 400, 1000)
 
+seeds = pygame.sprite.Group()
 
 class Tree(Parent_class):
     def __init__(self, pikt, size_x, size_y, pos_x, pos_y, health):
@@ -114,13 +112,15 @@ class Tree(Parent_class):
     def health1(self):
         if self.health <= 0:
             self.kill()
+        
 
     def fire2(self):
-        if tm.time() - self.start_time2 >= 1:
-            if shoting == False:
-                bullet = TreesBullets("tree_bullet.png", 30, 6, self.rect.x, self.rect.y, 6, 100)
-                bullets_trees.add(bullet)
-            self.start_time2 = tm.time()
+        if tree1.health > 0:          
+            if tm.time() - self.start_time2 >= 1:
+                if shoting == False:
+                    bullet = TreesBullets("tree_bullet.png", 30, 6, self.rect.x, self.rect.y, 6, 100)
+                    bullets_trees.add(bullet)
+                self.start_time2 = tm.time()
 
 
 
@@ -136,34 +136,65 @@ runing = True
 
 play = True
 
+sedds_flag = False
+
+reset_flag = False
+
+tree_list = []
+
 while runing:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             runing = False
 
     if play:
+        
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-            x, y = event.pos
-            tree2 = Tree("tree2.png", 60, 60, x, y, 3)
-            tree2.health1()
-            trees.add(tree2)
-    
-    
+            pass
         screen.blit(backgraund, (0, 0))
 
         trees.draw(screen)
 
         seed1.reset()
-        seed1.plant()
-        if seed1.plant():
-            seed2.reset()
+
+
+        if seed1.rect.collidepoint(pygame.mouse.get_pos()) and event.type == pygame.MOUSEBUTTONDOWN:
+            if sedds_flag == False:
+                reset_flag = True
+                seed2 = Seed("seeds1.png", 60, 60, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], 1000)
+                seeds.add(seed2)
+                sedds_flag = True
+
+
+    
+        if sedds_flag == True and seed2:
+            seed2.rect.x = pygame.mouse.get_pos()[0]
+            seed2.rect.y = pygame.mouse.get_pos()[1]
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                #reset_flag = False
+                #seed2.kill()
+                #print(len(seeds))
+                x, y = event.pos
+                tree2 = Tree("tree2.png", 60, 60, x, y, 3)
+                trees.add(tree2)
+                tree_list.append(tree2)
+                sedds_flag = False
+
+        if reset_flag == True:
+            print(len(seeds))
+            print("fgh")
+            seeds.draw(screen)
+            seeds.update()
 
         beaver1.health1()
 
         beavers.draw(screen)
         beavers.update()
-
+    
         tree1.health1()
+
+        for i in tree_list:
+            i.health1()
 
         for tree in trees:
             tree.fire2()
@@ -172,25 +203,23 @@ while runing:
             beaver.fire1()
 
 
-        if beaver1.health > 0:
-            bullets_enemy.draw(screen)
-            bullets_enemy.update()
+        bullets_enemy.draw(screen)
+        bullets_enemy.update()
 
-        if tree1.health > 0:
-            bullets_trees.draw(screen)
-            bullets_trees.update()
+        bullets_trees.draw(screen)
+        bullets_trees.update()
 
         if beaver1.rect.x <= 0:
             play = False
             screen.blit(text1, (670, 410))
             print("You loose")
 
-        collies_enemys = pygame.sprite.spritecollide(tree1, bullets_enemy, True)
+        collies_enemys = pygame.sprite.spritecollide(tree1, bullets_enemy, False)
         if collies_enemys:
             tree1.health -= 1
 
 
-        collies_trees = pygame.sprite.spritecollide(beaver1, bullets_trees, True)
+        collies_trees = pygame.sprite.spritecollide(beaver1, bullets_trees, False)
         if collies_trees:
             beaver1.health -= 2
 

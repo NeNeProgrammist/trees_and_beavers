@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36" version="28.1.0">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36" version="28.1.1">
   <diagram name="Страница — 1" id="tIC_WZ9eXxZFpHUOUbRm">
     <mxGraphModel dx="1869" dy="535" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -131,7 +131,7 @@
           <mxGeometry x="660" y="920" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="cspzs5Am_i9SIenbNEfv-5" value="исправить то, что пули исчезают после смерти" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="50" y="880" width="120" height="60" as="geometry" />
+          <mxGeometry x="660" y="1280" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="cspzs5Am_i9SIenbNEfv-6" value="дизайн деревьев/бобров" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="660" y="1010" width="120" height="60" as="geometry" />
@@ -154,8 +154,11 @@
         <mxCell id="4evCncEgxPiiOP-QGZJD-5" value="после отладки реализовать у бобров" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="660" y="1170" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="FzAQwwyJcnLsBKYegu79-1" value="1) Создать прямоугольник на который мы будем нажимать и после этого сажать деревья&lt;div&gt;2) очертить область для сажания деревьев&lt;/div&gt;&lt;div&gt;3) сделать перезарядку для сажания деревьев&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+        <mxCell id="FzAQwwyJcnLsBKYegu79-1" value="1) Создать прямоугольник на который мы будем нажимать и после этого сажать деревья&lt;div&gt;2) очертить область для сажания деревьев&lt;/div&gt;&lt;div&gt;3) сделать перезарядку для сажания деревьев&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="-290" y="960" width="200" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="bXJhE5d24LHI8s0pzfr6-1" value="Text" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="-443" y="1000" width="60" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
