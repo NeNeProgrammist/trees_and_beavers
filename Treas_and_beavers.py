@@ -115,7 +115,7 @@ class Tree(Parent_class):
         
 
     def fire2(self):
-        if tree1.health > 0:          
+        if self.health > 0:          
             if tm.time() - self.start_time2 >= 1:
                 if shoting == False:
                     bullet = TreesBullets("tree_bullet.png", 30, 6, self.rect.x, self.rect.y, 6, 100)
@@ -141,50 +141,46 @@ sedds_flag = False
 reset_flag = False
 
 tree_list = []
+start_time = tm.time()
 
 while runing:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             runing = False
 
+        if event.type == pygame.MOUSEBUTTONDOWN and seed1.rect.collidepoint(pygame.mouse.get_pos()):
+            if tm.time() - start_time >= 2:
+                if sedds_flag == False:
+                    reset_flag = True
+                    start_time = tm.time()
+                    if len(seeds) > 0:
+                        seed2.kill()
+                    seed2 = Seed("seeds1.png", 60, 60, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], 1000)
+                    seeds.add(seed2)
+                    sedds_flag = True
+
+        if sedds_flag == True:
+            seed2.rect.x = pygame.mouse.get_pos()[0]
+            seed2.rect.y = pygame.mouse.get_pos()[1]
+            if event.type == pygame.MOUSEBUTTONUP:
+                reset_flag = False
+                x, y = event.pos
+                if x < 1550 and y < 750:
+                    tree2 = Tree("tree2.png", 60, 60, x, y, 3)
+                    trees.add(tree2)
+                    tree_list.append(tree2)
+                sedds_flag = False
+
     if play:
-        
-        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-            pass
+
         screen.blit(backgraund, (0, 0))
 
         trees.draw(screen)
 
         seed1.reset()
 
-
-        if seed1.rect.collidepoint(pygame.mouse.get_pos()) and event.type == pygame.MOUSEBUTTONDOWN:
-            if sedds_flag == False:
-                reset_flag = True
-                seed2 = Seed("seeds1.png", 60, 60, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], 1000)
-                seeds.add(seed2)
-                sedds_flag = True
-
-
-    
-        if sedds_flag == True and seed2:
-            seed2.rect.x = pygame.mouse.get_pos()[0]
-            seed2.rect.y = pygame.mouse.get_pos()[1]
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                #reset_flag = False
-                #seed2.kill()
-                #print(len(seeds))
-                x, y = event.pos
-                tree2 = Tree("tree2.png", 60, 60, x, y, 3)
-                trees.add(tree2)
-                tree_list.append(tree2)
-                sedds_flag = False
-
         if reset_flag == True:
-            print(len(seeds))
-            print("fgh")
             seeds.draw(screen)
-            seeds.update()
 
         beaver1.health1()
 
