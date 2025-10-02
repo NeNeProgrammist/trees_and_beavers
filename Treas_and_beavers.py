@@ -1,5 +1,6 @@
 import pygame
 import time as tm
+import random
 
 screen_x = 1550
 screen_y = 800
@@ -8,8 +9,8 @@ start_time = tm.time()
 
 pygame.init()
 
-screen = pygame.display.set_mode((screen_x, screen_y))
-backgraund = pygame.transform.scale(pygame.image.load("fon1.jpg"), (screen_x, screen_y))
+screen = pygame.display.set_mode((screen_x, screen_y), vsync = 1)
+backgraund = pygame.transform.scale(pygame.image.load("fon3_4.png").convert_alpha(), (screen_x, screen_y))
 
 clock = pygame.time.Clock()
 
@@ -59,8 +60,12 @@ class Beaver(Parent_class):
         self.start_time = tm.time()
 
     def update(self):
+        global play
         self.rect.x -= self.speed
+        if self.rect.x <= 0:
+            play = False
 
+        
     def health1(self):
         if self.health <= 0:
             self.kill()
@@ -76,7 +81,7 @@ class Beaver(Parent_class):
 
 
 beavers = pygame.sprite.Group()
-beaver1 = Beaver("beaver2.png", 90, 50, 1300, 400, 2, 2)
+beaver1 = Beaver("beaver2.png", 90, 50, 1650, 400, 2, 2)
 beavers.add(beaver1)
 
 shoting = False
@@ -97,6 +102,9 @@ class Seed(Parent_class):
 seed1 = Seed("seed1.png", 60, 60, 100, 400, 1000)
 
 seeds = pygame.sprite.Group()
+
+tree_list = []
+
 
 class Tree(Parent_class):
     def __init__(self, pikt, size_x, size_y, pos_x, pos_y, health):
@@ -125,6 +133,7 @@ class Tree(Parent_class):
 
 
 tree1 = Tree("tree2.png", 60, 60, 600, 400, 3)
+tree_list.append(tree1)
 
 trees = pygame.sprite.Group()
 
@@ -140,8 +149,11 @@ sedds_flag = False
 
 reset_flag = False
 
-tree_list = []
+beaver_road = random.randint(1, 5)
+
+beaver_list = []
 start_time = tm.time()
+rect = pygame.Rect(30, 30, 30, 70)
 
 while runing:
     for event in pygame.event.get():
@@ -177,17 +189,15 @@ while runing:
 
         trees.draw(screen)
 
-        seed1.reset()
+        seed1.reset() # коробка с семянами
 
         if reset_flag == True:
             seeds.draw(screen)
 
-        beaver1.health1()
-
         beavers.draw(screen)
         beavers.update()
-    
-        tree1.health1()
+
+        pygame.draw.rect(screen, (0, 0, 255), rect, 10)
 
         for i in tree_list:
             i.health1()
@@ -198,6 +208,43 @@ while runing:
         for beaver in beavers:
             beaver.fire1()
 
+        if tm.time() - start_time >= 5:
+            if beaver_road == 1:
+                beaver2 = Beaver("beaver2.png", 90, 50, 1650, 100, 2, 2)
+                beavers.add(beaver2)
+                beaver_list.append(beaver2)
+
+
+            if beaver_road == 2:
+                beaver3 = Beaver("beaver2.png", 90, 50, 1650, 200, 2, 2)
+                beavers.add(beaver3)
+                beaver_list.append(beaver3)
+
+            if beaver_road == 3:
+                beaver4 = Beaver("beaver2.png", 90, 50, 1650, 300, 2, 2)
+                beavers.add(beaver4)
+                beaver_list.append(beaver4)
+
+            if beaver_road == 4:
+                beaver5 = Beaver("beaver2.png", 90, 50, 1650, 400, 2, 2)
+                beavers.add(beaver5)
+                beaver_list.append(beaver5)
+
+            if beaver_road == 5:
+                beaver6 = Beaver("beaver2.png", 90, 50, 1650, 500, 2, 2)
+                beavers.add(beaver6)
+                beaver_list.append(beaver6)
+
+
+
+
+            beaver_road = random.randint(1, 5)
+
+            start_time = tm.time()
+
+        for i in beaver_list:
+            i.health1()
+
 
         bullets_enemy.draw(screen)
         bullets_enemy.update()
@@ -205,19 +252,17 @@ while runing:
         bullets_trees.draw(screen)
         bullets_trees.update()
 
-        if beaver1.rect.x <= 0:
-            play = False
-            screen.blit(text1, (670, 410))
-            print("You loose")
-
-        collies_enemys = pygame.sprite.spritecollide(tree1, bullets_enemy, False)
-        if collies_enemys:
-            tree1.health -= 1
+        collies_enemys = pygame.sprite.groupcollide(trees, bullets_enemy, False, True)
+        for collide_enemy in collies_enemys:
+            collide_enemy.health -= 1
 
 
-        collies_trees = pygame.sprite.spritecollide(beaver1, bullets_trees, False)
-        if collies_trees:
-            beaver1.health -= 2
+        collies_trees = pygame.sprite.groupcollide(beavers, bullets_trees, False, True)
+        for collide_enemy in collies_enemys:
+            collide_enemy.health -= 1
+
+    else:
+        screen.blit(text1, (700, 390))
 
 
     clock.tick(60)
