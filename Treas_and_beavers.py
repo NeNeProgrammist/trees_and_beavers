@@ -103,7 +103,6 @@ seed1 = Seed("seed1.png", 60, 60, 100, 400, 1000)
 
 seeds = pygame.sprite.Group()
 
-tree_list = []
 
 
 class Tree(Parent_class):
@@ -133,8 +132,6 @@ class Tree(Parent_class):
 
 
 tree1 = Tree("tree2.png", 60, 60, 600, 400, 3)
-tree_list.append(tree1)
-
 trees = pygame.sprite.Group()
 
 trees.add(tree1)
@@ -151,9 +148,33 @@ reset_flag = False
 
 beaver_road = random.randint(1, 5)
 
-beaver_list = []
 start_time = tm.time()
-rect = pygame.Rect(30, 30, 30, 70)
+
+
+rect_list = []
+
+cell_clones = 0
+
+road_clones = 0
+
+
+rect_x = 20
+rect_y = 130
+
+
+while cell_clones <= 4:
+    while road_clones <= 8:
+        rect2 = pygame.Rect(rect_x + 110, rect_y, 130, 127)
+        rect_list.append(rect2)
+        rect_x += 117
+        road_clones += 1
+    rect_x = 20
+    road_clones = 0
+    rect_y += 127
+    cell_clones += 1
+    
+
+
 
 while runing:
     for event in pygame.event.get():
@@ -177,10 +198,10 @@ while runing:
             if event.type == pygame.MOUSEBUTTONUP:
                 reset_flag = False
                 x, y = event.pos
-                if x < 1550 and y < 750:
-                    tree2 = Tree("tree2.png", 60, 60, x, y, 3)
-                    trees.add(tree2)
-                    tree_list.append(tree2)
+                for cell_rect in rect_list:
+                    if cell_rect.collidepoint(pygame.mouse.get_pos()):
+                        tree2 = Tree("tree2.png", 60, 60, x, y, 3)
+                        trees.add(tree2)
                 sedds_flag = False
 
     if play:
@@ -197,43 +218,40 @@ while runing:
         beavers.draw(screen)
         beavers.update()
 
-        pygame.draw.rect(screen, (0, 0, 255), rect, 10)
-
-        for i in tree_list:
-            i.health1()
-
         for tree in trees:
+            tree.health1()
             tree.fire2()
 
         for beaver in beavers:
             beaver.fire1()
+            beaver.health1()
+
+
+        for rect_in_list in rect_list:
+            pygame.draw.rect(screen, (0, 0, 255), rect_in_list, 10)
+
 
         if tm.time() - start_time >= 5:
             if beaver_road == 1:
                 beaver2 = Beaver("beaver2.png", 90, 50, 1650, 100, 2, 2)
                 beavers.add(beaver2)
-                beaver_list.append(beaver2)
 
 
             if beaver_road == 2:
                 beaver3 = Beaver("beaver2.png", 90, 50, 1650, 200, 2, 2)
                 beavers.add(beaver3)
-                beaver_list.append(beaver3)
 
             if beaver_road == 3:
                 beaver4 = Beaver("beaver2.png", 90, 50, 1650, 300, 2, 2)
                 beavers.add(beaver4)
-                beaver_list.append(beaver4)
 
             if beaver_road == 4:
                 beaver5 = Beaver("beaver2.png", 90, 50, 1650, 400, 2, 2)
                 beavers.add(beaver5)
-                beaver_list.append(beaver5)
 
             if beaver_road == 5:
                 beaver6 = Beaver("beaver2.png", 90, 50, 1650, 500, 2, 2)
                 beavers.add(beaver6)
-                beaver_list.append(beaver6)
 
 
 
@@ -242,8 +260,6 @@ while runing:
 
             start_time = tm.time()
 
-        for i in beaver_list:
-            i.health1()
 
 
         bullets_enemy.draw(screen)
@@ -258,8 +274,8 @@ while runing:
 
 
         collies_trees = pygame.sprite.groupcollide(beavers, bullets_trees, False, True)
-        for collide_enemy in collies_enemys:
-            collide_enemy.health -= 1
+        for collide_tree in collies_trees:
+            collide_tree.health -= 2
 
     else:
         screen.blit(text1, (700, 390))
