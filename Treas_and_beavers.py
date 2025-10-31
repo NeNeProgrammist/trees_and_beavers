@@ -99,7 +99,7 @@ class Seed(Parent_class):
         self.mask = pygame.mask.from_surface(self.image)
 
 
-seed1 = Seed("seed1.png", 60, 60, 100, 400, 1000)
+seed1 = Seed("seed1.png", 60, 60, 60, 400, 1000)
 
 seeds = pygame.sprite.Group()
 
@@ -131,7 +131,7 @@ class Tree(Parent_class):
 
 
 
-tree1 = Tree("tree2.png", 60, 60, 600, 400, 3)
+tree1 = Tree("tree2.png", 100, 100, 600, 400, 3)
 trees = pygame.sprite.Group()
 
 trees.add(tree1)
@@ -160,6 +160,8 @@ road_clones = 0
 
 rect_x = 20
 rect_y = 130
+tree1_id = id(tree1)
+tree_rect_dict = {tree1_id : 4}
 
 
 while cell_clones <= 4:
@@ -200,11 +202,18 @@ while runing:
                 x, y = event.pos
                 for cell_rect in rect_list:
                     if cell_rect.collidepoint(pygame.mouse.get_pos()):
-                        tree2 = Tree("tree2.png", 60, 60, x, y, 3)
-                        trees.add(tree2)
+                        print(0)
+                        for tree_rect in trees:
+                            print(1)
+                            if seed2.rect.bottom - cell_rect.bottom <= 65:
+                                tree2 = Tree("tree2.png", 100, 100, cell_rect.left, cell_rect.top, 3)
+                                if not tree_rect.rect.colliderect(tree2.rect):
+                                    trees.add(tree2)
                 sedds_flag = False
 
     if play:
+        print(len(trees))
+
 
         screen.blit(backgraund, (0, 0))
 

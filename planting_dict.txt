@@ -1,0 +1,20 @@
+        if sedds_flag == True:
+            seed2.rect.x = pygame.mouse.get_pos()[0]
+            seed2.rect.y = pygame.mouse.get_pos()[1]
+            if event.type == pygame.MOUSEBUTTONUP:
+                reset_flag = False
+                x, y = event.pos
+                for cell_rect in rect_list:
+                    if cell_rect.collidepoint(pygame.mouse.get_pos()):
+                        print(0)
+                        for tree_rect_key in tree_rect_dict:
+                            print(1)
+                            if not id(cell_rect) in tree_rect_dict:
+                                print(2)
+                                if seed2.rect.bottom - cell_rect.bottom <= 65:
+                                    print(3)
+                                    tree2 = Tree("tree2.png", 100, 100, cell_rect.left, cell_rect.top, 3)
+                                    tree_id = id(tree2)
+                                    rect_id = id(cell_rect)
+                                    tree_rect_dict[tree_id] = rect_id
+                                    trees.add(tree2)
