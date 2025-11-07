@@ -202,22 +202,21 @@ while runing:
                 x, y = event.pos
                 for cell_rect in rect_list:
                     if cell_rect.collidepoint(pygame.mouse.get_pos()):
-                        print(0)
                         for tree_rect in trees:
-                            print(1)
                             if seed2.rect.bottom - cell_rect.bottom <= 65:
                                 tree2 = Tree("tree2.png", 100, 100, cell_rect.left, cell_rect.top, 3)
-                                if not tree_rect.rect.colliderect(tree2.rect):
+                                if (not tree_rect.rect.colliderect(tree2.rect)) and (not tree2 in trees):
                                     trees.add(tree2)
                 sedds_flag = False
 
     if play:
-        print(len(trees))
+        #print(len(trees))
 
 
         screen.blit(backgraund, (0, 0))
 
         trees.draw(screen)
+        print(len(trees), "колл. деревьев")
 
         seed1.reset() # коробка с семянами
 

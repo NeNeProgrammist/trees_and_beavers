@@ -1,0 +1,13 @@
+                            if seed2.rect.bottom - cell_rect.bottom <= 65:
+                                tree2 = Tree("tree2.png", 100, 100, cell_rect.left, cell_rect.top, 3)
+                                if tree2 and not tree_rect.rect.colliderect(tree2.rect):
+                                    trees.add(tree2)
+
+
+
+
+                            for tree_rect in trees:
+                                print(1)
+                                if not pygame.sprite.spritecollide(tree_rect, tree2, False):
+                                    tree2 = Tree("tree2.png", 100, 100, cell_rect.left, cell_rect.top, 3)
+                                    trees.add(tree2)
