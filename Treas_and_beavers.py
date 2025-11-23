@@ -103,8 +103,6 @@ seed1 = Seed("seed1.png", 60, 60, 60, 400, 1000)
 
 seeds = pygame.sprite.Group()
 
-
-
 class Tree(Parent_class):
     def __init__(self, pikt, size_x, size_y, pos_x, pos_y, health):
         super().__init__(pikt, size_x, size_y, pos_x, pos_y, health)
@@ -136,15 +134,25 @@ trees = pygame.sprite.Group()
 
 trees.add(tree1)
 
+class Shovel(Parent_class):
+    def __init__(self, pikt, size_x, size_y, pos_x, pos_y, health):
+        super().__init__(pikt, size_x, size_y, pos_x, pos_y, health)
+        self.image = pygame.transform.scale(pygame.image.load(pikt).convert_alpha(), (size_x, size_y))
+        self.rect = self.image.get_rect()
+        self.rect.x = pos_x
+        self.rect.y = pos_y
+        self.mask = pygame.mask.from_surface(self.image)
+
+shovel1 = Shovel("shovel2.png", 100, 100, 1490, 740, 10000)
+
+shovels = pygame.sprite.Group()
+shovels.add(shovel1)
+
 clock = pygame.time.Clock()
 
 runing = True
 
 play = True
-
-sedds_flag = False
-
-reset_flag = False
 
 beaver_road = random.randint(1, 5)
 
@@ -175,6 +183,22 @@ while cell_clones <= 4:
     rect_y += 127
     cell_clones += 1
     
+def is_cell_ocuped(cell_rect):
+    """проверяет, занятали клетка деревом"""
+    for tree in trees:
+        tenp_rect = pygame.Rect(cell_rect.left, cell_rect.top, 100, 100)
+        if tree.rect.colliderect(tenp_rect):
+            return True
+    return False
+
+def get_cell_center(cell_rect):
+    """возвращает координаты центра клетки для посадки дерева"""
+    return cell_rect.left, cell_rect.top
+
+curent_seed = None
+seed_cooldown = False
+last_seed_time = 0
+
 
 
 
@@ -183,31 +207,30 @@ while runing:
         if event.type == pygame.QUIT:
             runing = False
 
-        if event.type == pygame.MOUSEBUTTONDOWN and seed1.rect.collidepoint(pygame.mouse.get_pos()):
-            if tm.time() - start_time >= 2:
-                if sedds_flag == False:
-                    reset_flag = True
-                    start_time = tm.time()
-                    if len(seeds) > 0:
-                        seed2.kill()
-                    seed2 = Seed("seeds1.png", 60, 60, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], 1000)
-                    seeds.add(seed2)
-                    sedds_flag = True
-
-        if sedds_flag == True:
-            seed2.rect.x = pygame.mouse.get_pos()[0]
-            seed2.rect.y = pygame.mouse.get_pos()[1]
-            if event.type == pygame.MOUSEBUTTONUP:
-                reset_flag = False
-                x, y = event.pos
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if seed1.rect.collidepoint(event.pos) and not seed_cooldown:
+                if curent_seed is None:
+                    curent_seed = Seed("tree2.png", 60, 60, event.pos[0], event.pos[1], 1000)
+                    last_seed_time = tm.time()
+                    seed_cooldown = True
+            elif curent_seed is not None:
                 for cell_rect in rect_list:
-                    if cell_rect.collidepoint(pygame.mouse.get_pos()):
-                        for tree_rect in trees:
-                            if seed2.rect.bottom - cell_rect.bottom <= 65:
-                                tree2 = Tree("tree2.png", 100, 100, cell_rect.left, cell_rect.top, 3)
-                                if (not tree_rect.rect.colliderect(tree2.rect)) and (not tree2 in trees):
-                                    trees.add(tree2)
-                sedds_flag = False
+                    if cell_rect.collidepoint(event.pos):
+                        if not is_cell_ocuped(cell_rect):
+                            tree_x, tree_y = get_cell_center(cell_rect)
+                            tree2 = Tree("tree2.png", 100, 100, tree_x, tree_y, 3)
+                            trees.add(tree2)
+                            print(f"Дерево посаженно в клетку({tree_x}, {tree_y})")
+                        else:
+                            print("Клетка уже занята")
+                
+                curent_seed = None
+    if seed_cooldown and tm.time() - last_seed_time >= 0:
+        seed_cooldown = False
+
+    if curent_seed is not None:
+        curent_seed.rect.x = pygame.mouse.get_pos()[0] - curent_seed.rect.width // 2
+        curent_seed.rect.y = pygame.mouse.get_pos()[1] - curent_seed.rect.height // 2
 
     if play:
         #print(len(trees))
@@ -216,15 +239,19 @@ while runing:
         screen.blit(backgraund, (0, 0))
 
         trees.draw(screen)
-        print(len(trees), "колл. деревьев")
+        #print(len(trees), "колл. деревьев")
 
         seed1.reset() # коробка с семянами
 
-        if reset_flag == True:
-            seeds.draw(screen)
+        if curent_seed is not None:
+            curent_seed.reset()
+
+        seeds.draw(screen)
 
         beavers.draw(screen)
         beavers.update()
+
+        shovels.draw(screen)
 
         for tree in trees:
             tree.health1()
@@ -236,29 +263,29 @@ while runing:
 
 
         for rect_in_list in rect_list:
-            pygame.draw.rect(screen, (0, 0, 255), rect_in_list, 10)
+            pygame.draw.rect(screen, (255, 255, 255, 0), rect_in_list, 1)
 
 
         if tm.time() - start_time >= 5:
             if beaver_road == 1:
-                beaver2 = Beaver("beaver2.png", 90, 50, 1650, 100, 2, 2)
+                beaver2 = Beaver("beaver2.png", 90, 50, 1650, 130, 2, 2)
                 beavers.add(beaver2)
 
 
             if beaver_road == 2:
-                beaver3 = Beaver("beaver2.png", 90, 50, 1650, 200, 2, 2)
+                beaver3 = Beaver("beaver2.png", 90, 50, 1650, 257, 2, 2)
                 beavers.add(beaver3)
 
             if beaver_road == 3:
-                beaver4 = Beaver("beaver2.png", 90, 50, 1650, 300, 2, 2)
+                beaver4 = Beaver("beaver2.png", 90, 50, 1650, 384, 2, 2)
                 beavers.add(beaver4)
 
             if beaver_road == 4:
-                beaver5 = Beaver("beaver2.png", 90, 50, 1650, 400, 2, 2)
+                beaver5 = Beaver("beaver2.png", 90, 50, 1650, 511, 2, 2)
                 beavers.add(beaver5)
 
             if beaver_road == 5:
-                beaver6 = Beaver("beaver2.png", 90, 50, 1650, 500, 2, 2)
+                beaver6 = Beaver("beaver2.png", 90, 50, 1650, 638, 2, 2)
                 beavers.add(beaver6)
 
 
