@@ -143,9 +143,32 @@ class Shovel(Parent_class):
         self.rect.y = pos_y
         self.mask = pygame.mask.from_surface(self.image)
 
-shovel1 = Shovel("shovel2.png", 100, 100, 1490, 740, 10000)
+shovel1 = Shovel("shovel3.png", 50, 50, 1455, 720, 10000)
 
-shovels = pygame.sprite.Group()
+class Woodpecker(Parent_class):
+    def __init__(self, pikt, size_x, size_y, pos_x, pos_y, health, speed):
+        super().__init__(pikt, size_x, size_y, pos_x, pos_y, health)
+        self.image = pygame.transform.scale(pygame.image.load(pikt).convert_alpha(), (size_x, size_y))
+        self.rect = self.image.get_rect()
+        self.rect.x = pos_x
+        self.rect.y = pos_y
+        self.mask = pygame.mask.from_surface(self.image)
+        self.health = health
+        self.speed = speed
+
+    def health1(self):
+        if self.health <= 0:
+            self.kill()
+
+    def update(self):
+        global play
+        for hunnting_trees in trees:
+            hunnting_tree = random.randint(1, len(trees) - 1)
+
+woodpecker1 = Woodpecker("shovel3.png", 50, 50, 64, 46, 64646, 7)
+woodpecker1.update()
+
+shovels = pygame.sprite.Group
 shovels.add(shovel1)
 
 clock = pygame.time.Clock()
@@ -182,6 +205,12 @@ while cell_clones <= 4:
     road_clones = 0
     rect_y += 127
     cell_clones += 1
+
+grid_syrface = pygame.Surface((screen_x, screen_y), pygame.SRCALPHA)
+grid_color = (255, 255, 255, 0)
+
+for rect_in_list in rect_list:
+    pygame.draw.rect(grid_syrface, grid_color, rect_in_list, 1)
     
 def is_cell_ocuped(cell_rect):
     """проверяет, занятали клетка деревом"""
@@ -200,6 +229,7 @@ seed_cooldown = False
 last_seed_time = 0
 
 
+shovel2 = None
 
 
 while runing:
@@ -225,12 +255,33 @@ while runing:
                             print("Клетка уже занята")
                 
                 curent_seed = None
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if shovel1.rect.collidepoint(event.pos):
+                if shovel2 is None:
+                    shovel2 = Shovel("shovel2.png", 50, 50, event.pos[0], event.pos[1], 10000)
+                    shovels.add(shovel2)
+            elif shovel2 is not None:
+                for cell_rect in rect_list:
+                    if is_cell_ocuped(cell_rect):
+                        if event.type == pygame.MOUSEBUTTONDOWN:
+                            collies_showels = pygame.sprite.groupcollide(shovels, trees, True, True)
+                            for collide_showel in collies_showels:
+                                collide_showel.kill()
+                                shovel2.kill()
+                shovel2 = None
+
+
     if seed_cooldown and tm.time() - last_seed_time >= 0:
         seed_cooldown = False
 
     if curent_seed is not None:
         curent_seed.rect.x = pygame.mouse.get_pos()[0] - curent_seed.rect.width // 2
         curent_seed.rect.y = pygame.mouse.get_pos()[1] - curent_seed.rect.height // 2
+    
+    if shovel2 is not None:
+        shovel2.rect.x = pygame.mouse.get_pos()[0] - shovel2.rect.width // 2
+        shovel2.rect.y = pygame.mouse.get_pos()[1] - shovel2.rect.height // 2
 
     if play:
         #print(len(trees))
@@ -246,12 +297,15 @@ while runing:
         if curent_seed is not None:
             curent_seed.reset()
 
+        if shovel2 is not None:
+            shovel2.reset()
+
         seeds.draw(screen)
 
         beavers.draw(screen)
         beavers.update()
 
-        shovels.draw(screen)
+        shovel1.reset()
 
         for tree in trees:
             tree.health1()
@@ -262,9 +316,7 @@ while runing:
             beaver.health1()
 
 
-        for rect_in_list in rect_list:
-            pygame.draw.rect(screen, (255, 255, 255, 0), rect_in_list, 1)
-
+        screen.blit(grid_syrface, (0, 0))
 
         if tm.time() - start_time >= 5:
             if beaver_road == 1:

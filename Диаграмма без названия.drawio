@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36" version="29.1.0">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36" version="29.2.1">
   <diagram name="Страница — 1" id="tIC_WZ9eXxZFpHUOUbRm">
-    <mxGraphModel dx="2250" dy="594" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="1">
+    <mxGraphModel dx="2108" dy="535" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="1">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -155,7 +155,7 @@
           <mxGeometry height="60" width="120" x="660" y="1170" as="geometry" />
         </mxCell>
         <mxCell id="FzAQwwyJcnLsBKYegu79-1" parent="1" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" value="1) Создать прямоугольник на который мы будем нажимать и после этого сажать деревья&lt;div&gt;2) очертить область для сажания деревьев&lt;/div&gt;&lt;div&gt;3) сделать перезарядку для сажания деревьев&lt;/div&gt;&lt;div&gt;4) сделать так, что бы деревья сажались только на определённые клетки&lt;/div&gt;" vertex="1">
-          <mxGeometry height="130" width="200" x="-270" y="780" as="geometry" />
+          <mxGeometry height="130" width="200" x="620" y="2450" as="geometry" />
         </mxCell>
         <mxCell id="bXJhE5d24LHI8s0pzfr6-1" parent="1" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" value="доработать сетку" vertex="1">
           <mxGeometry height="30" width="60" x="680" y="1724" as="geometry" />
@@ -319,9 +319,6 @@
         <mxCell id="YBEO2R1SgdDVq5Xd_6qQ-2" parent="1" style="whiteSpace=wrap;html=1;rounded=0;" value="протестировать" vertex="1">
           <mxGeometry height="60" width="120" x="660" y="2060" as="geometry" />
         </mxCell>
-        <mxCell id="lfKhkFhVYCBEXtqQNTbU-1" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="поработать с лопатой" vertex="1">
-          <mxGeometry height="30" width="60" x="-210" y="970" as="geometry" />
-        </mxCell>
         <mxCell id="g7_IcCgZ5M4OSR-dp2KY-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="сделать так, что бы бобры шли по дорожке с деревьями" vertex="1">
           <mxGeometry height="60" width="120" x="660" y="2230" as="geometry" />
         </mxCell>
@@ -329,10 +326,22 @@
           <mxGeometry height="60" width="120" x="660" y="2310" as="geometry" />
         </mxCell>
         <mxCell id="g7_IcCgZ5M4OSR-dp2KY-3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="добавить новые виды деревьев и бобров" vertex="1">
-          <mxGeometry height="60" width="120" x="60" y="860" as="geometry" />
+          <mxGeometry height="60" width="120" x="340" y="840" as="geometry" />
         </mxCell>
         <mxCell id="g7_IcCgZ5M4OSR-dp2KY-4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="сделать механику убирания растений" vertex="1">
-          <mxGeometry height="60" width="120" x="340" y="850" as="geometry" />
+          <mxGeometry height="60" width="120" x="660" y="2380" as="geometry" />
+        </mxCell>
+        <mxCell id="eTBkwryM-E6EbfYjOp3E-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="сделать сетку невидимой" vertex="1">
+          <mxGeometry height="60" width="120" x="650" y="2610" as="geometry" />
+        </mxCell>
+        <mxCell id="eTBkwryM-E6EbfYjOp3E-2" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="дятел подлетает к дереву, начинает его клевать и дерево ломается. у дятлов будет больше здоровья, но при этом они будут реже появляться.&amp;nbsp;" vertex="1">
+          <mxGeometry height="30" width="60" x="-600" y="830" as="geometry" />
+        </mxCell>
+        <mxCell id="eTBkwryM-E6EbfYjOp3E-3" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="1) запрограммировать класс для детла&lt;div&gt;2) сделать спрайт&lt;/div&gt;&lt;div&gt;3) взаимодействия с деревьями&lt;/div&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="-500" y="740" as="geometry" />
+        </mxCell>
+        <mxCell id="eTBkwryM-E6EbfYjOp3E-4" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="реализация полёта дятла к конкретному дереву" vertex="1">
+          <mxGeometry height="30" width="60" x="-280" y="800" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
