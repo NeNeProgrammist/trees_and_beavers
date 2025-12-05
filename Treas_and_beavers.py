@@ -101,6 +101,8 @@ class Seed(Parent_class):
 
 seed1 = Seed("seed1.png", 60, 60, 60, 400, 1000)
 
+tree_list = []
+
 seeds = pygame.sprite.Group()
 
 class Tree(Parent_class):
@@ -131,6 +133,7 @@ class Tree(Parent_class):
 
 tree1 = Tree("tree2.png", 100, 100, 600, 400, 3)
 trees = pygame.sprite.Group()
+#tree_list.append(tree1)
 
 trees.add(tree1)
 
@@ -144,6 +147,10 @@ class Shovel(Parent_class):
         self.mask = pygame.mask.from_surface(self.image)
 
 shovel1 = Shovel("shovel3.png", 50, 50, 1455, 720, 10000)
+shovels = pygame.sprite.Group()
+shovels.add(shovel1)
+
+woodpecker_flag = True
 
 class Woodpecker(Parent_class):
     def __init__(self, pikt, size_x, size_y, pos_x, pos_y, health, speed):
@@ -155,6 +162,8 @@ class Woodpecker(Parent_class):
         self.mask = pygame.mask.from_surface(self.image)
         self.health = health
         self.speed = speed
+        self.wood = False
+
 
     def health1(self):
         if self.health <= 0:
@@ -162,14 +171,32 @@ class Woodpecker(Parent_class):
 
     def update(self):
         global play
-        for hunnting_trees in trees:
-            hunnting_tree = random.randint(1, len(trees) - 1)
+        if self.rect.x > 832:
+            self.rect.x -= self.speed
+        if self.rect.x <= 832:
+            if self.wood == False:
+                for hunnting_trees in tree_list:
+                    if len(tree_list) > 1:
+                        hunnting_tree_posision = random.randint(1, len(tree_list) - 1)
+                        hunnting_tree = tree_list[hunnting_tree_posision]
+                        cord_x = hunnting_tree.rect.x
+                        cord_y = hunnting_tree.rect.y
+                        if self.rect.x > cord_x:
+                            self.rect.x -= self.speed
 
-woodpecker1 = Woodpecker("shovel3.png", 50, 50, 64, 46, 64646, 7)
-woodpecker1.update()
+                        if self.rect.x < cord_x:
+                            self.rect.x += self.speed
 
-shovels = pygame.sprite.Group
-shovels.add(shovel1)
+                        if self.rect.y < cord_y:
+                            self.rect.y += self.speed
+
+                        if self.rect.y > cord_y:
+                            self.rect.y -= self.speed
+                    self.wood = True
+
+woodpecker1 = Woodpecker("shovel3.png", 50, 50, 1650, 257, 10, 2)
+woodpeckers = pygame.sprite.Group()
+woodpeckers.add(woodpecker1)
 
 clock = pygame.time.Clock()
 
@@ -179,8 +206,11 @@ play = True
 
 beaver_road = random.randint(1, 5)
 
+woodpecker_road = random.randint(1, 5)
+
 start_time = tm.time()
 
+woodpecker_spawn_time = tm.time()
 
 rect_list = []
 
@@ -250,6 +280,7 @@ while runing:
                             tree_x, tree_y = get_cell_center(cell_rect)
                             tree2 = Tree("tree2.png", 100, 100, tree_x, tree_y, 3)
                             trees.add(tree2)
+                            tree_list.append(tree2)
                             print(f"Дерево посаженно в клетку({tree_x}, {tree_y})")
                         else:
                             print("Клетка уже занята")
@@ -285,8 +316,7 @@ while runing:
 
     if play:
         #print(len(trees))
-
-
+        
         screen.blit(backgraund, (0, 0))
 
         trees.draw(screen)
@@ -304,6 +334,12 @@ while runing:
 
         beavers.draw(screen)
         beavers.update()
+
+        woodpeckers.draw(screen)
+        woodpeckers.update()
+
+        for wodpiker in woodpeckers:
+            wodpiker.health1()
 
         shovel1.reset()
 
@@ -323,7 +359,6 @@ while runing:
                 beaver2 = Beaver("beaver2.png", 90, 50, 1650, 130, 2, 2)
                 beavers.add(beaver2)
 
-
             if beaver_road == 2:
                 beaver3 = Beaver("beaver2.png", 90, 50, 1650, 257, 2, 2)
                 beavers.add(beaver3)
@@ -339,14 +374,36 @@ while runing:
             if beaver_road == 5:
                 beaver6 = Beaver("beaver2.png", 90, 50, 1650, 638, 2, 2)
                 beavers.add(beaver6)
-
-
-
-
+                
             beaver_road = random.randint(1, 5)
 
             start_time = tm.time()
 
+
+        if tm.time() - woodpecker_spawn_time >= 10:
+            if woodpecker_road == 1:
+                woodpecker2 = Woodpecker("beaver2.png", 90, 50, 1650, 130, 2, 2)
+                woodpeckers.add(woodpecker2)
+
+            if woodpecker_road == 2:
+                woodpecker3 = Woodpecker("beaver2.png", 90, 50, 1650, 257, 2, 2)
+                woodpeckers.add(woodpecker3)
+
+            if woodpecker_road == 3:
+                woodpecker4 = Woodpecker("beaver2.png", 90, 50, 1650, 384, 2, 2)
+                woodpeckers.add(woodpecker4)
+
+            if woodpecker_road == 4:
+                woodpecker5 = Woodpecker("beaver2.png", 90, 50, 1650, 511, 2, 2)
+                woodpeckers.add(woodpecker5)
+
+            if woodpecker_road == 5:
+                woodpecker6 = Woodpecker("beaver2.png", 90, 50, 1650, 638, 2, 2)
+                woodpeckers.add(woodpecker6)
+
+            woodpecker_road = random.randint(1, 5)
+
+            woodpecker_spawn_time = tm.time()
 
 
         bullets_enemy.draw(screen)
