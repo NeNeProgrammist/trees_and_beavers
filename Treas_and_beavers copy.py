@@ -119,7 +119,6 @@ class Tree(Parent_class):
     def health1(self):
         if self.health <= 0:
             self.kill()
-
         
 
     def fire2(self):
@@ -151,9 +150,9 @@ shovel1 = Shovel("shovel3.png", 50, 50, 1455, 720, 10000)
 shovels = pygame.sprite.Group()
 shovels.add(shovel1)
 
+woodpecker_flag = True
 
 woodpecker_chose = {}
-
 
 class Woodpecker(Parent_class):
     def __init__(self, pikt, size_x, size_y, pos_x, pos_y, health, speed):
@@ -173,41 +172,38 @@ class Woodpecker(Parent_class):
             self.kill()
 
     def update(self):
-        woodpecker_flag = True
         global play
         if self.rect.x > 500:
             self.rect.x -= self.speed
         elif self.rect.x <= 500:
-            if woodpecker_flag == True:
-                for hunnting_trees in tree_list:
-                    hunnting_tree_posision = random.randint(1, len(tree_list) - 1)
-                    woodpecker_chose[self] = tree_list[hunnting_tree_posision]
-                    if self in woodpecker_chose:
-                        if len(tree_list) > 1:
-                            tree_in_dikt = woodpecker_chose[self]
-                            cord_x = tree_in_dikt.rect.x
-                            cord_y = tree_in_dikt.rect.y
-                            woodpecker_flag = False
-            if woodpecker_flag == False:
-                collied_woodpickers = pygame.sprite.groupcollide(woodpeckers, trees, False, True)
-                print(collied_woodpickers)
-                if not collied_woodpickers:
-                    if self.rect.x > cord_x:
-                        self.rect.x -= self.speed
+            for hunnting_trees in tree_list:
+                hunnting_tree_posision = random.randint(1, len(tree_list) - 1)
+                woodpecker_chose[self] = tree_list[hunnting_tree_posision]
+                if self in woodpecker_chose:
+                    print("кординаты дятла", self.rect.x, self. rect.y)
+                    if len(tree_list) > 1:
+                        tree_in_dikt = woodpecker_chose[self]
+                        cord_x = tree_in_dikt.rect.x
+                        cord_y = tree_in_dikt.rect.y
+                        if self.rect.x > cord_x:
+                            print (1)
+                            self.rect.x -= self.speed
 
-                    if self.rect.x < cord_x:
-                        self.rect.x += self.speed
+                        if self.rect.x < cord_x:
+                            print (2)
 
-                    if self.rect.y < cord_y:
-                        self.rect.y += self.speed
+                            self.rect.x += self.speed
 
-                    if self.rect.y > cord_y:
-                        self.rect.y -= self.speed
-                else:
-                    del woodpecker_chose[self]
-                    del collied_woodpickers[self]
-                    print(woodpecker_chose,"chose")
-                    print(collied_woodpickers, "collide")
+                        if self.rect.y < cord_y:
+                            print (3)
+
+                            self.rect.y += self.speed
+
+                        if self.rect.y > cord_y:
+                            print (4)
+
+                            self.rect.y -= self.speed
+                            
 
 woodpecker1 = Woodpecker("shovel3.png", 50, 50, 1650, 257, 10, 2)
 woodpeckers = pygame.sprite.Group()

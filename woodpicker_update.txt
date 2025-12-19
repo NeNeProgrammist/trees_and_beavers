@@ -1,0 +1,27 @@
+    def update(self):
+        global play
+        if self.rect.x > 832:
+            self.rect.x -= self.speed
+        if self.rect.x <= 832:
+            print(1, self.wood)
+            #if self.wood == False:
+            print(2, self.wood)
+            for hunnting_trees in tree_list:
+                if len(tree_list) > 1:
+                    print(3)
+                    hunnting_tree_posision = random.randint(1, len(tree_list) - 1)
+                    hunnting_tree = tree_list[hunnting_tree_posision]
+                    cord_x = hunnting_tree.rect.x
+                    cord_y = hunnting_tree.rect.y
+                    if self.rect.x > cord_x:
+                        self.rect.x -= self.speed
+
+                    if self.rect.x < cord_x:
+                        self.rect.x += self.speed
+
+                    if self.rect.y < cord_y:
+                        self.rect.y += self.speed
+
+                    if self.rect.y > cord_y:
+                        self.rect.y -= self.speed
+                    #self.wood = True

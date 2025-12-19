@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36" version="29.2.4">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36" version="29.2.7">
   <diagram name="Страница — 1" id="tIC_WZ9eXxZFpHUOUbRm">
     <mxGraphModel dx="2108" dy="535" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="1">
       <root>
@@ -344,7 +344,16 @@
           <mxGeometry height="30" width="60" x="680" y="2700" as="geometry" />
         </mxCell>
         <mxCell id="z-AbDG8mZpp0KitzE4_D-1" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="отладить определения рандомного дерева дятлом" vertex="1">
-          <mxGeometry height="30" width="60" x="-310" y="770" as="geometry" />
+          <mxGeometry height="30" width="60" x="690" y="2780" as="geometry" />
+        </mxCell>
+        <mxCell id="FKpIY5v_AAAglNMt0Rm8-2" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="починить vscode&lt;br&gt;сделать комит&lt;div&gt;работа с методом update у дятла(проверить условие движения и наличие в словаре объекта)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="-230" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="wiBHCVcrovjdMd6zPcYr-1" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="исправить пересечение клеток" vertex="1">
+          <mxGeometry height="30" width="60" x="-530" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="wiBHCVcrovjdMd6zPcYr-2" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="flag = True&lt;div&gt;if flag = True: ....&lt;/div&gt;&lt;div&gt;flag = False&lt;/div&gt;&lt;div&gt;if Flag = False:&lt;/div&gt;&lt;div&gt;flag = True&lt;/div&gt;" vertex="1">
+          <mxGeometry height="30" width="155" x="-295" y="840" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
