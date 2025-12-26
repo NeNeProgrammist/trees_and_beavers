@@ -134,7 +134,7 @@ class Tree(Parent_class):
 
 tree1 = Tree("tree2.png", 100, 100, 600, 400, 3)
 trees = pygame.sprite.Group()
-#tree_list.append(tree1)
+tree_list.append(tree1)
 
 trees.add(tree1)
 
@@ -154,6 +154,7 @@ shovels.add(shovel1)
 
 woodpecker_chose = {}
 
+woodpecker_update_flag = True
 
 class Woodpecker(Parent_class):
     def __init__(self, pikt, size_x, size_y, pos_x, pos_y, health, speed):
@@ -190,7 +191,6 @@ class Woodpecker(Parent_class):
                             woodpecker_flag = False
             if woodpecker_flag == False:
                 collied_woodpickers = pygame.sprite.groupcollide(woodpeckers, trees, False, True)
-                print(collied_woodpickers)
                 if not collied_woodpickers:
                     if self.rect.x > cord_x:
                         self.rect.x -= self.speed
@@ -203,13 +203,14 @@ class Woodpecker(Parent_class):
 
                     if self.rect.y > cord_y:
                         self.rect.y -= self.speed
-                else:
+                elif collied_woodpickers:
                     del woodpecker_chose[self]
                     del collied_woodpickers[self]
-                    print(woodpecker_chose,"chose")
-                    print(collied_woodpickers, "collide")
-
-woodpecker1 = Woodpecker("shovel3.png", 50, 50, 1650, 257, 10, 2)
+                    tree_in_dikt.kill()
+                    woodpecker_flag = True
+                    print("s")
+                    
+woodpecker1 = Woodpecker("woodpicker1.png", 45, 75, 1650, 257, 10, 2)
 woodpeckers = pygame.sprite.Group()
 woodpeckers.add(woodpecker1)
 
@@ -276,7 +277,7 @@ last_seed_time = 0
 
 shovel2 = None
 
-
+woodpecker_update_time = tm.time()
 while runing:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -351,7 +352,14 @@ while runing:
         beavers.update()
 
         woodpeckers.draw(screen)
-        woodpeckers.update()
+        if woodpecker_update_flag == True:
+            woodpeckers.update()
+            #print(woodpecker_update_flag)
+            woodpecker_update_flag = False
+
+        if tm.time() - woodpecker_update_time >= 5:
+            woodpecker_update_flag = True
+            woodpecker_update_time = tm.time()
 
         for wodpiker in woodpeckers:
             wodpiker.health1()
@@ -397,23 +405,23 @@ while runing:
 
         if tm.time() - woodpecker_spawn_time >= 10:
             if woodpecker_road == 1:
-                woodpecker2 = Woodpecker("beaver2.png", 90, 50, 1650, 130, 2, 2)
+                woodpecker2 = Woodpecker("woodpicker1.png", 45, 75, 1650, 130, 2, 2)
                 woodpeckers.add(woodpecker2)
 
             if woodpecker_road == 2:
-                woodpecker3 = Woodpecker("beaver2.png", 90, 50, 1650, 257, 2, 2)
+                woodpecker3 = Woodpecker("woodpicker1.png", 45, 75, 1650, 257, 2, 2)
                 woodpeckers.add(woodpecker3)
 
             if woodpecker_road == 3:
-                woodpecker4 = Woodpecker("beaver2.png", 90, 50, 1650, 384, 2, 2)
+                woodpecker4 = Woodpecker("woodpicker1.png", 45, 75, 1650, 384, 2, 2)
                 woodpeckers.add(woodpecker4)
 
             if woodpecker_road == 4:
-                woodpecker5 = Woodpecker("beaver2.png", 90, 50, 1650, 511, 2, 2)
+                woodpecker5 = Woodpecker("woodpicker1.png", 45, 75, 1650, 511, 2, 2)
                 woodpeckers.add(woodpecker5)
 
             if woodpecker_road == 5:
-                woodpecker6 = Woodpecker("beaver2.png", 90, 50, 1650, 638, 2, 2)
+                woodpecker6 = Woodpecker("woodpicker1.png", 45, 75, 1650, 638, 2, 2)
                 woodpeckers.add(woodpecker6)
 
             woodpecker_road = random.randint(1, 5)
