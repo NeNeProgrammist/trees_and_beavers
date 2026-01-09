@@ -114,6 +114,8 @@ class Tree(Parent_class):
         self.rect.y = pos_y
         self.mask = pygame.mask.from_surface(self.image)
         self.start_time2 = tm.time()
+        self.hit_count = 0
+        self.max_hits = 5
         
 
     def health1(self):
@@ -130,12 +132,16 @@ class Tree(Parent_class):
                     bullets_trees.add(bullet)
                 self.start_time2 = tm.time()
 
-
+    def take_hit(self):
+        self.hit_count += 1
+        if self.hit_count >= self.max_hits:
+            self.health = 0
+            return True
+        return False
 
 tree1 = Tree("tree2.png", 100, 100, 600, 400, 3)
 trees = pygame.sprite.Group()
 tree_list.append(tree1)
-
 trees.add(tree1)
 
 class Shovel(Parent_class):
@@ -166,50 +172,79 @@ class Woodpecker(Parent_class):
         self.mask = pygame.mask.from_surface(self.image)
         self.health = health
         self.speed = speed
-        self.wood = False
+        self.target_tree = None
+        self.pecking = False
+        self.peck_cooldown = 0
+        self.last_peck_time = tm.time()
+        self.peck_interval = 0.5
 
 
     def health1(self):
         if self.health <= 0:
             self.kill()
 
+    def fined_nest_tree(self):
+        if not tree_list:
+            return None
+        
+        nearst_tree = None
+        min_distanse = float("inf")
+
+        for tree in tree_list:
+            if tree.helth >= 0:
+                distanse = ((self.rect.x - tree.rect.x) ** 2 + (self.rect.y - tree.rect.y) ** 2) ** 0.5
+                if distanse < min_distanse:
+                    min_distanse = distanse
+                    nearst_tree = tree
+        return nearst_tree
+    
+
     def update(self):
-        woodpecker_flag = True
-        global play
-        if self.rect.x > 500:
-            self.rect.x -= self.speed
-        elif self.rect.x <= 500:
-            if woodpecker_flag == True:
-                for hunnting_trees in tree_list:
-                    hunnting_tree_posision = random.randint(1, len(tree_list) - 1)
-                    woodpecker_chose[self] = tree_list[hunnting_tree_posision]
-                    if self in woodpecker_chose:
-                        if len(tree_list) > 1:
-                            tree_in_dikt = woodpecker_chose[self]
-                            cord_x = tree_in_dikt.rect.x
-                            cord_y = tree_in_dikt.rect.y
-                            woodpecker_flag = False
-            if woodpecker_flag == False:
-                collied_woodpickers = pygame.sprite.groupcollide(woodpeckers, trees, False, True)
-                if not collied_woodpickers:
-                    if self.rect.x > cord_x:
-                        self.rect.x -= self.speed
+        curent_time = tm.time()
 
-                    if self.rect.x < cord_x:
-                        self.rect.x += self.speed
+        if self.pecking and self.target_tree:
+            if self.target_tree.health <= 0:
+                self.pecking = False
+                self.target_tree = None
+                return
+            
+            if curent_time - self.last_peck_time == self.peck_interval:
+                if self.target_tree.take_hit():
+                    if self.target_tree in tree_list:
+                        tree_list.remove(self.target_tree)
+                    self.target_tree.kill()
+                    self.pecking = False
+                    self.target_tree = None
+                self.last_peck_time = curent_time
+            return
+        if self.target_tree and self.target_tree.health > 0:
+            target_x = self.target_tree.rect.x + self.target_tree.rect.wjdth // 2
+            target_y = self.target_tree.rect.y + self.target_tree.rect.hejgth // 2
 
-                    if self.rect.y < cord_y:
-                        self.rect.y += self.speed
+            dx = target_x - (self.rect.x + self.rect.wjdth // 2)
+            dy = target_y - (self.rect.y + self.rect.hejgth // 2)
+            distance = (dx ** 2 + dy ** 2) ** 0.5
 
-                    if self.rect.y > cord_y:
-                        self.rect.y -= self.speed
-                elif collied_woodpickers:
-                    del woodpecker_chose[self]
-                    del collied_woodpickers[self]
-                    tree_in_dikt.kill()
-                    woodpecker_flag = True
-                    print("s")
-                    
+            if distance > 0:
+                dx /= distance
+                dy /= distance
+
+                moove_distance = min(self.speed, distance)
+                self.rect.x += dx * moove_distance
+                self.rect.y += dx * moove_distance
+            
+            if distance < 20:
+                self.pecking = True
+                self.last_peck_time = curent_time
+
+        else:
+            self.target_tree = self.fined_nest_tree
+
+            if not self.target_tree:
+                return
+
+
+
 woodpecker1 = Woodpecker("woodpicker1.png", 45, 75, 1650, 257, 10, 2)
 woodpeckers = pygame.sprite.Group()
 woodpeckers.add(woodpecker1)
@@ -352,10 +387,7 @@ while runing:
         beavers.update()
 
         woodpeckers.draw(screen)
-        if woodpecker_update_flag == True:
-            woodpeckers.update()
-            #print(woodpecker_update_flag)
-            woodpecker_update_flag = False
+        woodpeckers.update()
 
         if tm.time() - woodpecker_update_time >= 5:
             woodpecker_update_flag = True
