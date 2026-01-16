@@ -24,6 +24,7 @@ class Parent_class(pygame.sprite.Sprite):
         self.mask = pygame.mask.from_surface(self.image)
         self.health = health
 
+
     def reset(self):
         screen.blit(self.image, (self.rect.x, self.rect.y))
 
@@ -64,6 +65,7 @@ class Beaver(Parent_class):
         if self.rect.x <= 0:
             play = False
 
+        
     def health1(self):
         if self.health <= 0:
             self.kill()
@@ -75,6 +77,8 @@ class Beaver(Parent_class):
                     bullet = Bullets("bullet.png", 30, 6, self.rect.x, self.rect.y, 4, 100)
                     bullets_enemy.add(bullet)
                 self.start_time = tm.time()
+
+
 
 beavers = pygame.sprite.Group()
 beaver1 = Beaver("beaver2.png", 90, 50, 1650, 400, 2, 2)
@@ -94,6 +98,7 @@ class Seed(Parent_class):
         self.rect.y = pos_y
         self.mask = pygame.mask.from_surface(self.image)
 
+
 seed1 = Seed("seed1.png", 60, 60, 60, 400, 1000)
 
 tree_list = []
@@ -109,12 +114,15 @@ class Tree(Parent_class):
         self.rect.y = pos_y
         self.mask = pygame.mask.from_surface(self.image)
         self.start_time2 = tm.time()
-        self.hit_count = 0  # Счетчик ударов
-        self.max_hits = 5  # Количество ударов для уничтожения дерева
+        self.hit_count = 0
+        self.max_hits = 5
+        
 
     def health1(self):
         if self.health <= 0:
             self.kill()
+
+        
 
     def fire2(self):
         if self.health > 0:          
@@ -125,10 +133,9 @@ class Tree(Parent_class):
                 self.start_time2 = tm.time()
 
     def take_hit(self):
-        """Дерево получает удар от дятла"""
         self.hit_count += 1
         if self.hit_count >= self.max_hits:
-            self.health = 0  # Уничтожаем дерево
+            self.health = 0
             return True
         return False
 
@@ -150,6 +157,11 @@ shovel1 = Shovel("shovel3.png", 50, 50, 1455, 720, 10000)
 shovels = pygame.sprite.Group()
 shovels.add(shovel1)
 
+
+woodpecker_chose = {}
+
+woodpecker_update_flag = True
+
 class Woodpecker(Parent_class):
     def __init__(self, pikt, size_x, size_y, pos_x, pos_y, health, speed):
         super().__init__(pikt, size_x, size_y, pos_x, pos_y, health)
@@ -160,87 +172,79 @@ class Woodpecker(Parent_class):
         self.mask = pygame.mask.from_surface(self.image)
         self.health = health
         self.speed = speed
-        self.target_tree = None  # Текущее целевое дерево
-        self.pecking = False  # Клюет ли дятел
-        self.peck_cooldown = 0  # Время между ударами
-        self.last_peck_time = tm.time()  # Время последнего удара
-        self.peck_interval = 0.5  # Интервал между ударами (секунды)
+        self.target_tree = None
+        self.pecking = False
+        self.peck_cooldown = 0
+        self.last_peck_time = tm.time()
+        self.peck_interval = 0.5
+
 
     def health1(self):
         if self.health <= 0:
             self.kill()
 
-    def find_nearest_tree(self):
-        """Находит ближайшее дерево"""
+    def fined_nearst_tree(self):
         if not tree_list:
             return None
         
-        nearest_tree = None
-        min_distance = float('inf')
-        
+        nearst_tree = None
+        min_distanse = float('inf')
+
         for tree in tree_list:
-            if tree.health > 0:  # Только живые деревья
-                distance = ((self.rect.x - tree.rect.x) ** 2 + (self.rect.y - tree.rect.y) ** 2) ** 0.5
-                if distance < min_distance:
-                    min_distance = distance
-                    nearest_tree = tree
-        
-        return nearest_tree
+            if tree.health >= 0:
+                distanse = ((self.rect.x - tree.rect.x) ** 2 + (self.rect.y - tree.rect.y) ** 2) ** 0.5
+                if distanse < min_distanse:
+                    min_distanse = distanse
+                    nearst_tree = tree
+        return nearst_tree
+    
 
     def update(self):
-        current_time = tm.time()
-        
-        # Если дятел клюет дерево
+        curent_time = tm.time()
+
         if self.pecking and self.target_tree:
-            # Проверяем, не уничтожено ли дерево
             if self.target_tree.health <= 0:
                 self.pecking = False
                 self.target_tree = None
                 return
-                
-            # Клюем дерево с интервалом
-            if current_time - self.last_peck_time >= self.peck_interval:
+            
+            if curent_time - self.last_peck_time == self.peck_interval:
                 if self.target_tree.take_hit():
-                    # Дерево уничтожено
                     if self.target_tree in tree_list:
                         tree_list.remove(self.target_tree)
                     self.target_tree.kill()
                     self.pecking = False
                     self.target_tree = None
-                self.last_peck_time = current_time
+                self.last_peck_time = curent_time
             return
-        
-        # Если есть целевое дерево, летим к нему
+           
         if self.target_tree and self.target_tree.health > 0:
             target_x = self.target_tree.rect.x + self.target_tree.rect.width // 2
             target_y = self.target_tree.rect.y + self.target_tree.rect.height // 2
-            
-            # Двигаемся к дереву
+
             dx = target_x - (self.rect.x + self.rect.width // 2)
             dy = target_y - (self.rect.y + self.rect.height // 2)
             distance = (dx ** 2 + dy ** 2) ** 0.5
-            
+
             if distance > 0:
-                # Нормализуем вектор направления
                 dx /= distance
                 dy /= distance
-                
-                # Двигаемся с учетом скорости
+
                 move_distance = min(self.speed, distance)
                 self.rect.x += dx * move_distance
-                self.rect.y += dy * move_distance
+                self.rect.y += dx * move_distance
             
-            # Если достигли дерева, начинаем клевать
-            if distance < 20:  # Пороговое расстояние для начала клевания
+            if distance < 20:
                 self.pecking = True
-                self.last_peck_time = current_time
+                self.last_peck_time = curent_time
+
         else:
-            # Ищем новое дерево
-            self.target_tree = self.find_nearest_tree()
-            
-            # Если деревьев нет, остаемся на месте
+            self.target_tree = self.fined_nearst_tree()
+
             if not self.target_tree:
                 return
+
+
 
 woodpecker1 = Woodpecker("woodpicker1.png", 45, 75, 1650, 257, 10, 2)
 woodpeckers = pygame.sprite.Group()
@@ -253,20 +257,25 @@ runing = True
 play = True
 
 beaver_road = random.randint(1, 5)
+
 woodpecker_road = random.randint(1, 5)
 
 start_time = tm.time()
+
 woodpecker_spawn_time = tm.time()
 
 rect_list = []
 
 cell_clones = 0
+
 road_clones = 0
+
 
 rect_x = 20
 rect_y = 130
 tree1_id = id(tree1)
 tree_rect_dict = {tree1_id : 4}
+
 
 while cell_clones <= 4:
     while road_clones <= 8:
@@ -286,10 +295,10 @@ for rect_in_list in rect_list:
     pygame.draw.rect(grid_syrface, grid_color, rect_in_list, 1)
     
 def is_cell_ocuped(cell_rect):
-    """проверяет, занята ли клетка деревом"""
+    """проверяет, занятали клетка деревом"""
     for tree in trees:
-        temp_rect = pygame.Rect(cell_rect.left, cell_rect.top, 100, 100)
-        if tree.rect.colliderect(temp_rect):
+        tenp_rect = pygame.Rect(cell_rect.left, cell_rect.top, 100, 100)
+        if tree.rect.colliderect(tenp_rect):
             return True
     return False
 
@@ -301,8 +310,10 @@ curent_seed = None
 seed_cooldown = False
 last_seed_time = 0
 
+
 shovel2 = None
 
+woodpecker_update_time = tm.time()
 while runing:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -339,11 +350,10 @@ while runing:
                         if event.type == pygame.MOUSEBUTTONDOWN:
                             collies_showels = pygame.sprite.groupcollide(shovels, trees, True, True)
                             for collide_showel in collies_showels:
-                                if collide_showel in tree_list:
-                                    tree_list.remove(collide_showel)
                                 collide_showel.kill()
                                 shovel2.kill()
                 shovel2 = None
+
 
     if seed_cooldown and tm.time() - last_seed_time >= 0:
         seed_cooldown = False
@@ -357,10 +367,14 @@ while runing:
         shovel2.rect.y = pygame.mouse.get_pos()[1] - shovel2.rect.height // 2
 
     if play:
+        #print(len(trees))
+        
         screen.blit(backgraund, (0, 0))
 
         trees.draw(screen)
-        seed1.reset()
+        #print(len(trees), "колл. деревьев")
+
+        seed1.reset() # коробка с семянами
 
         if curent_seed is not None:
             curent_seed.reset()
@@ -369,13 +383,19 @@ while runing:
             shovel2.reset()
 
         seeds.draw(screen)
+
         beavers.draw(screen)
         beavers.update()
-        woodpeckers.draw(screen)
-        woodpeckers.update()  # Обновляем дятлов каждый кадр
 
-        for woodpecker in woodpeckers:
-            woodpecker.health1()
+        woodpeckers.draw(screen)
+        woodpeckers.update()
+
+        if tm.time() - woodpecker_update_time >= 5:
+            woodpecker_update_flag = True
+            woodpecker_update_time = tm.time()
+
+        for wodpiker in woodpeckers:
+            wodpiker.health1()
 
         shovel1.reset()
 
@@ -387,56 +407,71 @@ while runing:
             beaver.fire1()
             beaver.health1()
 
+
         screen.blit(grid_syrface, (0, 0))
 
         if tm.time() - start_time >= 5:
             if beaver_road == 1:
                 beaver2 = Beaver("beaver2.png", 90, 50, 1650, 130, 2, 2)
                 beavers.add(beaver2)
+
             if beaver_road == 2:
                 beaver3 = Beaver("beaver2.png", 90, 50, 1650, 257, 2, 2)
                 beavers.add(beaver3)
+
             if beaver_road == 3:
                 beaver4 = Beaver("beaver2.png", 90, 50, 1650, 384, 2, 2)
                 beavers.add(beaver4)
+
             if beaver_road == 4:
                 beaver5 = Beaver("beaver2.png", 90, 50, 1650, 511, 2, 2)
                 beavers.add(beaver5)
+
             if beaver_road == 5:
                 beaver6 = Beaver("beaver2.png", 90, 50, 1650, 638, 2, 2)
                 beavers.add(beaver6)
                 
             beaver_road = random.randint(1, 5)
+
             start_time = tm.time()
+
 
         if tm.time() - woodpecker_spawn_time >= 10:
             if woodpecker_road == 1:
                 woodpecker2 = Woodpecker("woodpicker1.png", 45, 75, 1650, 130, 2, 2)
                 woodpeckers.add(woodpecker2)
+
             if woodpecker_road == 2:
                 woodpecker3 = Woodpecker("woodpicker1.png", 45, 75, 1650, 257, 2, 2)
                 woodpeckers.add(woodpecker3)
+
             if woodpecker_road == 3:
                 woodpecker4 = Woodpecker("woodpicker1.png", 45, 75, 1650, 384, 2, 2)
                 woodpeckers.add(woodpecker4)
+
             if woodpecker_road == 4:
                 woodpecker5 = Woodpecker("woodpicker1.png", 45, 75, 1650, 511, 2, 2)
                 woodpeckers.add(woodpecker5)
+
             if woodpecker_road == 5:
                 woodpecker6 = Woodpecker("woodpicker1.png", 45, 75, 1650, 638, 2, 2)
                 woodpeckers.add(woodpecker6)
 
             woodpecker_road = random.randint(1, 5)
+
             woodpecker_spawn_time = tm.time()
+
 
         bullets_enemy.draw(screen)
         bullets_enemy.update()
+
         bullets_trees.draw(screen)
         bullets_trees.update()
 
         collies_enemys = pygame.sprite.groupcollide(trees, bullets_enemy, False, True)
         for collide_enemy in collies_enemys:
             collide_enemy.health -= 1
+
 
         collies_trees = pygame.sprite.groupcollide(beavers, bullets_trees, False, True)
         for collide_tree in collies_trees:
@@ -445,7 +480,7 @@ while runing:
     else:
         screen.blit(text1, (700, 390))
 
+
     clock.tick(60)
     pygame.display.flip()
-
 pygame.quit()

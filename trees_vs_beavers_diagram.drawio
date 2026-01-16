@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36" version="29.3.0">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36" version="29.3.2">
   <diagram name="Страница — 1" id="tIC_WZ9eXxZFpHUOUbRm">
     <mxGraphModel dx="2108" dy="535" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="1">
       <root>
@@ -356,16 +356,19 @@
           <mxGeometry height="30" width="155" x="-295" y="840" as="geometry" />
         </mxCell>
         <mxCell id="h6Qt2WXG43Pj0lHZC-p6-1" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=#B20000;fillColor=#e51400;align=center;verticalAlign=middle;rounded=0;fontColor=#ffffff;" value="исправление удаления из словарей(woodpicker_chose и collide_woodpicker) деревьев" vertex="1">
-          <mxGeometry height="80" width="170" x="329" y="920" as="geometry" />
+          <mxGeometry height="80" width="170" x="635" y="2843" as="geometry" />
         </mxCell>
         <mxCell id="h6Qt2WXG43Pj0lHZC-p6-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e51400;fontColor=#ffffff;strokeColor=#B20000;" value="движение дятлов с задержкой" vertex="1">
-          <mxGeometry height="60" width="120" x="380" y="1030" as="geometry" />
+          <mxGeometry height="60" width="120" x="680" y="3030" as="geometry" />
         </mxCell>
         <mxCell id="HB8m_peszMeMz2wt1nqx-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="дописать исправленный код с дятлами" vertex="1">
-          <mxGeometry height="60" width="120" x="70" y="930" as="geometry" />
+          <mxGeometry height="60" width="120" x="670" y="2940" as="geometry" />
         </mxCell>
         <mxCell id="HB8m_peszMeMz2wt1nqx-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="анимация для дятлов" vertex="1">
-          <mxGeometry height="60" width="120" x="70" y="1000" as="geometry" />
+          <mxGeometry height="60" width="120" x="60" y="920" as="geometry" />
+        </mxCell>
+        <mxCell id="z4lUc9ga4oUH6bZ0rkdP-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="сделать так, что бы деревья могли уничтожить дятлов" vertex="1">
+          <mxGeometry height="60" width="120" x="50" y="1010" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
