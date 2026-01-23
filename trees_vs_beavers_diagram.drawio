@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36" version="29.3.2">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36" version="29.3.4">
   <diagram name="Страница — 1" id="tIC_WZ9eXxZFpHUOUbRm">
     <mxGraphModel dx="2108" dy="535" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="1">
       <root>
@@ -368,7 +368,7 @@
           <mxGeometry height="60" width="120" x="60" y="920" as="geometry" />
         </mxCell>
         <mxCell id="z4lUc9ga4oUH6bZ0rkdP-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="сделать так, что бы деревья могли уничтожить дятлов" vertex="1">
-          <mxGeometry height="60" width="120" x="50" y="1010" as="geometry" />
+          <mxGeometry height="60" width="120" x="670" y="3110" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

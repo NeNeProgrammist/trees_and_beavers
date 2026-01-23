@@ -126,9 +126,9 @@ class Tree(Parent_class):
 
     def take_hit(self):
         """Дерево получает удар от дятла"""
-        self.hit_count += 1
-        if self.hit_count >= self.max_hits:
-            self.health = 0  # Уничтожаем дерево
+        self.health -= 1
+        if self.health <= 0:
+            # Уничтожаем дерево
             return True
         return False
 
@@ -200,11 +200,14 @@ class Woodpecker(Parent_class):
                 
             # Клюем дерево с интервалом
             if current_time - self.last_peck_time >= self.peck_interval:
+                anim = Anim_pecking(self.rect.x, self.rect.y)
+                anim_pecking_group.add(anim)
                 if self.target_tree.take_hit():
                     # Дерево уничтожено
                     if self.target_tree in tree_list:
                         tree_list.remove(self.target_tree)
-                    self.target_tree.kill()
+                        anim_pecking_group.empty()
+                    #self.target_tree.health -= 1
                     self.pecking = False
                     self.target_tree = None
                 self.last_peck_time = current_time
@@ -242,9 +245,42 @@ class Woodpecker(Parent_class):
             if not self.target_tree:
                 return
 
-woodpecker1 = Woodpecker("woodpicker1.png", 45, 75, 1650, 257, 10, 2)
+woodpecker1 = Woodpecker(f"anim_pecking/woodpicker1.png", 45, 75, 1650, 257, 90, 2)
 woodpeckers = pygame.sprite.Group()
 woodpeckers.add(woodpecker1)
+
+class Anim_pecking(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        pygame.sprite.Sprite.__init__(self)
+        self.images = []
+        for num in range(1, 6):
+            img = pygame.image.load(f"anim_pecking/woodpicker{num}.png")
+            img = pygame.transform.scale(img, (45, 75))
+            self.images.append(img)
+        self.index = 0
+        self.image = self.images[self.index]
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+        self.counter = 0
+          
+
+    def update(self):
+        explosion_speed = 6
+        #update explosion animation
+        self.counter += 1
+
+        if self.counter >= explosion_speed and self.index < len(self.images) - 1:
+            self.counter = 0
+            self.index += 1
+            self.image = self.images[self.index]
+
+        #if the animation is complete, reset animation index
+        if self.index >= len(self.images) - 1 and self.counter >= explosion_speed:
+            self.kill()
+
+anim_pecking_group = pygame.sprite.Group()
+
 
 clock = pygame.time.Clock()
 
@@ -299,7 +335,7 @@ def get_cell_center(cell_rect):
 
 curent_seed = None
 seed_cooldown = False
-last_seed_time = 0
+last_seed_time = tm.time()
 
 shovel2 = None
 
@@ -309,24 +345,25 @@ while runing:
             runing = False
 
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if seed1.rect.collidepoint(event.pos) and not seed_cooldown:
-                if curent_seed is None:
-                    curent_seed = Seed("tree2.png", 60, 60, event.pos[0], event.pos[1], 1000)
-                    last_seed_time = tm.time()
-                    seed_cooldown = True
-            elif curent_seed is not None:
-                for cell_rect in rect_list:
-                    if cell_rect.collidepoint(event.pos):
-                        if not is_cell_ocuped(cell_rect):
-                            tree_x, tree_y = get_cell_center(cell_rect)
-                            tree2 = Tree("tree2.png", 100, 100, tree_x, tree_y, 3)
-                            trees.add(tree2)
-                            tree_list.append(tree2)
-                            print(f"Дерево посаженно в клетку({tree_x}, {tree_y})")
-                        else:
-                            print("Клетка уже занята")
-                
-                curent_seed = None
+            if tm.time() - last_seed_time >= 3:
+                if seed1.rect.collidepoint(event.pos) and not seed_cooldown:
+                    if curent_seed is None:
+                        curent_seed = Seed("tree2.png", 60, 60, event.pos[0], event.pos[1], 1000)
+                        seed_cooldown = True
+                elif curent_seed is not None:
+                    for cell_rect in rect_list:
+                        if cell_rect.collidepoint(event.pos):
+                            if not is_cell_ocuped(cell_rect):
+                                tree_x, tree_y = get_cell_center(cell_rect)
+                                tree2 = Tree("tree2.png", 100, 100, tree_x, tree_y, 3)
+                                trees.add(tree2)
+                                tree_list.append(tree2)
+                                last_seed_time = tm.time()
+                                print(f"Дерево посаженно в клетку({tree_x}, {tree_y})")
+                            else:
+                                print("Клетка уже занята")
+                    
+                    curent_seed = None
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             if shovel1.rect.collidepoint(event.pos):
@@ -361,6 +398,9 @@ while runing:
 
         trees.draw(screen)
         seed1.reset()
+
+        anim_pecking_group.draw(screen)
+        anim_pecking_group.update()
 
         if curent_seed is not None:
             curent_seed.reset()
@@ -411,19 +451,19 @@ while runing:
 
         if tm.time() - woodpecker_spawn_time >= 10:
             if woodpecker_road == 1:
-                woodpecker2 = Woodpecker("woodpicker1.png", 45, 75, 1650, 130, 2, 2)
+                woodpecker2 = Woodpecker("woodpicker1.png", 45, 75, 1650, 130, 90, 2)
                 woodpeckers.add(woodpecker2)
             if woodpecker_road == 2:
-                woodpecker3 = Woodpecker("woodpicker1.png", 45, 75, 1650, 257, 2, 2)
+                woodpecker3 = Woodpecker("woodpicker1.png", 45, 75, 1650, 257, 90, 2)
                 woodpeckers.add(woodpecker3)
             if woodpecker_road == 3:
-                woodpecker4 = Woodpecker("woodpicker1.png", 45, 75, 1650, 384, 2, 2)
+                woodpecker4 = Woodpecker("woodpicker1.png", 45, 75, 1650, 384, 90, 2)
                 woodpeckers.add(woodpecker4)
             if woodpecker_road == 4:
-                woodpecker5 = Woodpecker("woodpicker1.png", 45, 75, 1650, 511, 2, 2)
+                woodpecker5 = Woodpecker("woodpicker1.png", 45, 75, 1650, 511, 90, 2)
                 woodpeckers.add(woodpecker5)
             if woodpecker_road == 5:
-                woodpecker6 = Woodpecker("woodpicker1.png", 45, 75, 1650, 638, 2, 2)
+                woodpecker6 = Woodpecker("woodpicker1.png", 45, 75, 1650, 638, 90, 2)
                 woodpeckers.add(woodpecker6)
 
             woodpecker_road = random.randint(1, 5)
@@ -441,6 +481,11 @@ while runing:
         collies_trees = pygame.sprite.groupcollide(beavers, bullets_trees, False, True)
         for collide_tree in collies_trees:
             collide_tree.health -= 2
+
+        collies_woodpickers = pygame.sprite.groupcollide(woodpeckers, bullets_trees, False, True)
+        for collide_woodpicker in collies_woodpickers:
+            collide_woodpicker.health -= 2
+
 
     else:
         screen.blit(text1, (700, 390))
