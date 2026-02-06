@@ -82,8 +82,12 @@ beavers.add(beaver1)
 
 shoting = False
 
+sun_amount = 1300
+
 f1 = pygame.font.SysFont('Caladea', 36)
 text1 = f1.render("You loose", True, (0, 0, 0))
+
+
 
 class Seed(Parent_class):
     def __init__(self, pikt, size_x, size_y, pos_x, pos_y, health):
@@ -109,8 +113,7 @@ class Tree(Parent_class):
         self.rect.y = pos_y
         self.mask = pygame.mask.from_surface(self.image)
         self.start_time2 = tm.time()
-        self.hit_count = 0  # Счетчик ударов
-        self.max_hits = 5  # Количество ударов для уничтожения дерева
+        self.amount = 100    
 
     def health1(self):
         if self.health <= 0:
@@ -149,6 +152,12 @@ class Shovel(Parent_class):
 shovel1 = Shovel("shovel3.png", 50, 50, 1455, 720, 10000)
 shovels = pygame.sprite.Group()
 shovels.add(shovel1)
+
+f2 = pygame.font.SysFont('Caladea', 36)
+text2 = f2.render(f"{sun_amount}", True, (252, 236, 0))
+
+sun_ikon = Shovel("sun.png", 50, 50, 100, 15, 100000)
+
 
 
 class Woodpecker(Parent_class):
@@ -270,7 +279,7 @@ class Woodpecker(Parent_class):
                 return
 
 
-woodpecker1 = Woodpecker(f"anim_pecking/woodpicker1.png", 45, 75, 1650, 257, 90, 2)
+woodpecker1 = Woodpecker(f"anim_pecking/woodpicker1.png", 45, 75, 1650, 257, 6, 2)
 woodpeckers = pygame.sprite.Group()
 woodpeckers.add(woodpecker1)
 
@@ -305,6 +314,7 @@ class Anim_pecking(pygame.sprite.Sprite):
             self.kill()
 
 anim_pecking_group = pygame.sprite.Group()
+
 
 
 clock = pygame.time.Clock()
@@ -370,25 +380,28 @@ while runing:
             runing = False
 
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if tm.time() - last_seed_time >= 3:
-                if seed1.rect.collidepoint(event.pos) and not seed_cooldown:
-                    if curent_seed is None:
-                        curent_seed = Seed("tree2.png", 60, 60, event.pos[0], event.pos[1], 1000)
-                        seed_cooldown = True
-                elif curent_seed is not None:
-                    for cell_rect in rect_list:
-                        if cell_rect.collidepoint(event.pos):
-                            if not is_cell_ocuped(cell_rect):
-                                tree_x, tree_y = get_cell_center(cell_rect)
-                                tree2 = Tree("tree2.png", 100, 100, tree_x, tree_y, 3)
-                                trees.add(tree2)
-                                tree_list.append(tree2)
-                                last_seed_time = tm.time()
-                                print(f"Дерево посаженно в клетку({tree_x}, {tree_y})")
-                            else:
-                                print("Клетка уже занята")
-                    
-                    curent_seed = None
+            if sun_amount >= 100:
+                if tm.time() - last_seed_time >= 3:
+                    if seed1.rect.collidepoint(event.pos) and not seed_cooldown:
+                        if curent_seed is None:
+                            curent_seed = Seed("tree2.png", 60, 60, event.pos[0], event.pos[1], 1000)
+                            seed_cooldown = True
+                    elif curent_seed is not None:
+                        for cell_rect in rect_list:
+                            if cell_rect.collidepoint(event.pos):
+                                if not is_cell_ocuped(cell_rect):
+                                    tree_x, tree_y = get_cell_center(cell_rect)
+                                    tree2 = Tree("tree2.png", 100, 100, tree_x, tree_y, 3)
+                                    trees.add(tree2)
+                                    tree_list.append(tree2)
+                                    last_seed_time = tm.time()
+                                    sun_amount -= 100
+                                    screen.blit(text2, (15, 15))
+                                    print(f"Дерево посаженно в клетку({tree_x}, {tree_y})")
+                                else:
+                                    print("Клетка уже занята")
+                        
+                        curent_seed = None
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             if shovel1.rect.collidepoint(event.pos):
@@ -423,6 +436,10 @@ while runing:
 
         trees.draw(screen)
         seed1.reset()
+
+        screen.blit(text2, (15, 15))
+
+        sun_ikon.reset()
 
         anim_pecking_group.draw(screen)
         anim_pecking_group.update()
@@ -476,19 +493,19 @@ while runing:
 
         if tm.time() - woodpecker_spawn_time >= 10:
             if woodpecker_road == 1:
-                woodpecker2 = Woodpecker("woodpicker1.png", 45, 75, 1650, 130, 90, 2)
+                woodpecker2 = Woodpecker("woodpicker1.png", 45, 75, 1650, 130, 6, 2)
                 woodpeckers.add(woodpecker2)
             if woodpecker_road == 2:
-                woodpecker3 = Woodpecker("woodpicker1.png", 45, 75, 1650, 257, 90, 2)
+                woodpecker3 = Woodpecker("woodpicker1.png", 45, 75, 1650, 257, 6, 2)
                 woodpeckers.add(woodpecker3)
             if woodpecker_road == 3:
-                woodpecker4 = Woodpecker("woodpicker1.png", 45, 75, 1650, 384, 90, 2)
+                woodpecker4 = Woodpecker("woodpicker1.png", 45, 75, 1650, 384, 6, 2)
                 woodpeckers.add(woodpecker4)
             if woodpecker_road == 4:
-                woodpecker5 = Woodpecker("woodpicker1.png", 45, 75, 1650, 511, 90, 2)
+                woodpecker5 = Woodpecker("woodpicker1.png", 45, 75, 1650, 511, 6, 2)
                 woodpeckers.add(woodpecker5)
             if woodpecker_road == 5:
-                woodpecker6 = Woodpecker("woodpicker1.png", 45, 75, 1650, 638, 90, 2)
+                woodpecker6 = Woodpecker("woodpicker1.png", 45, 75, 1650, 638, 6, 2)
                 woodpeckers.add(woodpecker6)
 
             woodpecker_road = random.randint(1, 5)
