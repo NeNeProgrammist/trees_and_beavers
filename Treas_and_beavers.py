@@ -150,10 +150,17 @@ shovel1 = Shovel("shovel3.png", 50, 50, 1455, 720, 10000)
 shovels = pygame.sprite.Group()
 shovels.add(shovel1)
 
+
 class Woodpecker(Parent_class):
     def __init__(self, pikt, size_x, size_y, pos_x, pos_y, health, speed):
         super().__init__(pikt, size_x, size_y, pos_x, pos_y, health)
-        self.image = pygame.transform.scale(pygame.image.load(pikt).convert_alpha(), (size_x, size_y))
+        self.images = []
+        for i in range(1, 6):
+            img = pygame.image.load(f"anim_pecking/woodpicker{i}.png")
+            img = pygame.transform.scale(img, (size_x, size_y))
+            self.images.append(img)
+        self.curent_frame = 0
+        self.image = self.images[self.curent_frame]
         self.rect = self.image.get_rect()
         self.rect.x = pos_x
         self.rect.y = pos_y
@@ -162,9 +169,11 @@ class Woodpecker(Parent_class):
         self.speed = speed
         self.target_tree = None  # Текущее целевое дерево
         self.pecking = False  # Клюет ли дятел
-        self.peck_cooldown = 0  # Время между ударами
-        self.last_peck_time = tm.time()  # Время последнего удара
-        self.peck_interval = 0.5  # Интервал между ударами (секунды)
+        self.animacion_counter = 0
+        self.animacion_speed = 3
+        self.peck_derektion = 1
+        self.original_x = pos_x
+        self.original_y = pos_y
 
     def health1(self):
         if self.health <= 0:
@@ -186,6 +195,21 @@ class Woodpecker(Parent_class):
                     nearest_tree = tree
         
         return nearest_tree
+    
+    def update_animasion(self):
+        if self.pecking:
+            self.animacion_counter += 1
+            if self.animacion_counter >= self.animacion_speed:
+                self.animacion_counter = 0
+                self.curent_frame = (self.curent_frame + 1) % len(self.images)
+                self.image = self.images[self.curent_frame]
+
+            if self.curent_frame <= 2:
+                self.rect.x = self.original_x - 5
+                self.rect.y = self.original_y + 3
+            else:
+                self.rect.x = self.original_x
+                self.rect.y = self.original_y
 
     def update(self):
         current_time = tm.time()
@@ -193,57 +217,58 @@ class Woodpecker(Parent_class):
         # Если дятел клюет дерево
         if self.pecking and self.target_tree:
             # Проверяем, не уничтожено ли дерево
+            if self.original_x == 0:
+                self.original_x = self.original_x
+                self.original_y = self.original_y
+
+            self.update_animasion()
+
             if self.target_tree.health <= 0:
                 self.pecking = False
                 self.target_tree = None
+                self.curent_frame = 0
+                self.image = self.images[self.curent_frame]
+                self.original_x = 0
+                self.original_y = 0
                 return
-                
-            # Клюем дерево с интервалом
-            if current_time - self.last_peck_time >= self.peck_interval:
-                anim = Anim_pecking(self.rect.x, self.rect.y)
-                anim_pecking_group.add(anim)
+            
+            if self.curent_frame == 2 and self.animacion_counter == 0:
                 if self.target_tree.take_hit():
-                    # Дерево уничтожено
                     if self.target_tree in tree_list:
                         tree_list.remove(self.target_tree)
-                        anim_pecking_group.empty()
-                    #self.target_tree.health -= 1
                     self.pecking = False
                     self.target_tree = None
-                self.last_peck_time = current_time
+                    self.curent_frame = 0
+                    self.image = self.images[self.curent_frame]
+                    self.original_x = 0
+                    self.original_y = 0
             return
-        
-        # Если есть целевое дерево, летим к нему
         if self.target_tree and self.target_tree.health > 0:
             target_x = self.target_tree.rect.x + self.target_tree.rect.width // 2
             target_y = self.target_tree.rect.y + self.target_tree.rect.height // 2
-            
-            # Двигаемся к дереву
+
             dx = target_x - (self.rect.x + self.rect.width // 2)
             dy = target_y - (self.rect.y + self.rect.height // 2)
             distance = (dx ** 2 + dy ** 2) ** 0.5
-            
+
             if distance > 0:
-                # Нормализуем вектор направления
                 dx /= distance
                 dy /= distance
-                
-                # Двигаемся с учетом скорости
                 move_distance = min(self.speed, distance)
                 self.rect.x += dx * move_distance
                 self.rect.y += dy * move_distance
-            
-            # Если достигли дерева, начинаем клевать
-            if distance < 20:  # Пороговое расстояние для начала клевания
+
+            if distance < 30:
                 self.pecking = True
-                self.last_peck_time = current_time
+                self.original_x = self.rect.x
+                self.original_y = self.rect.y
+                self.animacion_counter = 0
+                self.curent_frame = 0
         else:
-            # Ищем новое дерево
             self.target_tree = self.find_nearest_tree()
-            
-            # Если деревьев нет, остаемся на месте
             if not self.target_tree:
                 return
+
 
 woodpecker1 = Woodpecker(f"anim_pecking/woodpicker1.png", 45, 75, 1650, 257, 90, 2)
 woodpeckers = pygame.sprite.Group()
