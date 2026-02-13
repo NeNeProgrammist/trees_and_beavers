@@ -50,6 +50,7 @@ class TreesBullets(Parent_class):
             self.kill()
 
 bullets_trees = pygame.sprite.Group()
+tree_list = []
 
 
 class Beaver(Parent_class):
@@ -57,10 +58,33 @@ class Beaver(Parent_class):
         super().__init__(pikt, size_x, size_y, pos_x, pos_y, health)
         self.speed = speed
         self.start_time = tm.time()
+        self.tree_near_beaver = False
+
+    def is_beaver_cell_ocuped(self):
+        if not tree_list:
+            return None
+        
+        nearest_tree = None
+        min_distance = float('inf')
+        
+        for tree in tree_list:
+            if tree.health > 0:  # Только живые деревья
+                distance = ((self.rect.x - tree.rect.x) ** 2 + (self.rect.y - tree.rect.y) ** 2) ** 0.5
+                if distance < min_distance:
+                    min_distance = distance
+                    nearest_tree = tree
+        
+    
+        if self.rect.x - tree.rect.x <= 200:
+            self.tree_near_beaver = True
+        else:
+            self.tree_near_beaver = False
+
 
     def update(self):
         global play
-        self.rect.x -= self.speed
+        if self.tree_near_beaver == False:
+            self.rect.x -= self.speed
         if self.rect.x <= 0:
             play = False
 
@@ -77,7 +101,7 @@ class Beaver(Parent_class):
                 self.start_time = tm.time()
 
 beavers = pygame.sprite.Group()
-beaver1 = Beaver("beaver2.png", 90, 50, 1650, 400, 2, 2)
+beaver1 = Beaver("beaver2.png", 90, 50, 1650, 400, 2, 200)
 beavers.add(beaver1)
 
 shoting = False
@@ -100,7 +124,6 @@ class Seed(Parent_class):
 
 seed1 = Seed("seed1.png", 60, 60, 60, 400, 1000)
 
-tree_list = []
 
 seeds = pygame.sprite.Group()
 
@@ -135,7 +158,7 @@ class Tree(Parent_class):
             return True
         return False
 
-tree1 = Tree("tree2.png", 100, 100, 600, 400, 3)
+tree1 = Tree("tree2.png", 100, 100, 600, 400, 200)
 trees = pygame.sprite.Group()
 tree_list.append(tree1)
 trees.add(tree1)
@@ -315,7 +338,61 @@ class Anim_pecking(pygame.sprite.Sprite):
 
 anim_pecking_group = pygame.sprite.Group()
 
+class Sun(Parent_class):
+    def __init__(self, pikt, size_x, size_y, pos_x, pos_y, health, speed, sun_cord_y):
+        super().__init__(pikt, size_x, size_y, pos_x, pos_y, health)
+        self.image = pygame.transform.scale(pygame.image.load(pikt).convert_alpha(), (size_x, size_y))
+        self.rect = self.image.get_rect()
+        self.rect.x = pos_x
+        self.rect.y = pos_y
+        self.mask = pygame.mask.from_surface(self.image)
+        self.speed = speed
+        self.sun_cord_y = sun_cord_y
 
+    def update(self):
+        if self.rect.y != self.sun_cord_y:
+            self.rect.y += self.speed
+
+    def click(self):
+        global sun_amount, text2
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if self.rect.collidepoint(event.pos):
+                self.kill()
+                sun_amount += 50
+                f2 = pygame.font.SysFont('Caladea', 36)
+                text2 = f2.render(f"{sun_amount}", True, (252, 236, 0))
+
+
+sun1 = Sun("sun.png", 50, 50, random.randint(100, 1000), -100, 10, 1, random.randint(200, 700))
+suns = pygame.sprite.Group()
+sun1.add(suns)
+
+class Oak(Parent_class):
+    def __init__(self, pikt, size_x, size_y, pos_x, pos_y, health):
+        super().__init__(pikt, size_x, size_y, pos_x, pos_y, health)
+        self.image = pygame.transform.scale(pygame.image.load(pikt).convert_alpha(), (size_x, size_y))
+        self.rect = self.image.get_rect()
+        self.rect.x = pos_x
+        self.rect.y = pos_y
+        self.mask = pygame.mask.from_surface(self.image)
+        self.start_time2 = tm.time()
+        self.amount = 50
+
+    def take_hit(self):
+        """Дерево получает удар от дятла"""
+        self.health -= 1
+        if self.health <= 0:
+            # Уничтожаем дерево
+            return True
+        return False
+    
+    def health1(self):
+        if self.health <= 0:
+            self.kill()
+oak1 = Oak("oak1.png", 100, 100, 500, 500, 50)
+oaks = pygame.sprite.Group()
+oak1.add(oaks)
+tree_list.append(oak1)
 
 clock = pygame.time.Clock()
 
@@ -374,6 +451,8 @@ last_seed_time = tm.time()
 
 shovel2 = None
 
+sun_spawn_time = tm.time()
+
 while runing:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -396,7 +475,8 @@ while runing:
                                     tree_list.append(tree2)
                                     last_seed_time = tm.time()
                                     sun_amount -= 100
-                                    screen.blit(text2, (15, 15))
+                                    f2 = pygame.font.SysFont('Caladea', 36)
+                                    text2 = f2.render(f"{sun_amount}", True, (252, 236, 0))
                                     print(f"Дерево посаженно в клетку({tree_x}, {tree_y})")
                                 else:
                                     print("Клетка уже занята")
@@ -444,6 +524,18 @@ while runing:
         anim_pecking_group.draw(screen)
         anim_pecking_group.update()
 
+        if tm.time() - sun_spawn_time >= 15:
+            sun2 = Sun("sun.png", 50, 50, random.randint(100, 1000), -100, 10, 1, random.randint(200, 700))
+            suns.add(sun2)
+            sun_spawn_time = tm.time()
+
+        suns.draw(screen)
+        for sunn in suns:
+            sunn.update()
+        
+        for sun in suns:
+            sun.click()
+
         if curent_seed is not None:
             curent_seed.reset()
 
@@ -455,6 +547,7 @@ while runing:
         beavers.update()
         woodpeckers.draw(screen)
         woodpeckers.update()  # Обновляем дятлов каждый кадр
+
 
         for woodpecker in woodpeckers:
             woodpecker.health1()
@@ -468,6 +561,11 @@ while runing:
         for beaver in beavers:
             beaver.fire1()
             beaver.health1()
+            beaver.is_beaver_cell_ocuped()
+
+        oaks.draw(screen)
+        for oak in oaks:
+            oak.health1()
 
         screen.blit(grid_syrface, (0, 0))
 
@@ -528,6 +626,9 @@ while runing:
         for collide_woodpicker in collies_woodpickers:
             collide_woodpicker.health -= 2
 
+        collies_oaks = pygame.sprite.groupcollide(oaks, bullets_enemy, False, True)
+        for collide_oak in collies_oaks:
+            collide_oak.health -= 1
 
     else:
         screen.blit(text1, (700, 390))
