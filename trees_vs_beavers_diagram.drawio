@@ -405,6 +405,12 @@
         <mxCell id="T-w3k3QMIKf-cGDLsgGo-7" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="сделать так, что бы кусок кода для сажания деревьев работал для всех видов деревьев" vertex="1">
           <mxGeometry height="70" width="120" x="330" y="1020" as="geometry" />
         </mxCell>
+        <mxCell id="ZFJplIOnb6XKvdvOa-le-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="нарисовать текстуру дубу" vertex="1">
+          <mxGeometry height="60" width="120" x="60" y="910" as="geometry" />
+        </mxCell>
+        <mxCell id="ZFJplIOnb6XKvdvOa-le-3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="доделать остановку бобров" vertex="1">
+          <mxGeometry height="60" width="120" x="50" y="1010" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>

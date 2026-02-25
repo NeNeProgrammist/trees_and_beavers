@@ -61,25 +61,13 @@ class Beaver(Parent_class):
         self.tree_near_beaver = False
 
     def is_beaver_cell_ocuped(self):
-        if not tree_list:
-            return None
-        
-        nearest_tree = None
-        min_distance = float('inf')
-        
-        for tree in tree_list:
-            if tree.health > 0:  # Только живые деревья
-                distance = ((self.rect.x - tree.rect.x) ** 2 + (self.rect.y - tree.rect.y) ** 2) ** 0.5
-                if distance < min_distance:
-                    min_distance = distance
-                    nearest_tree = tree
-        
-    
-        if self.rect.x - tree.rect.x <= 200:
-            self.tree_near_beaver = True
-        else:
-            self.tree_near_beaver = False
-
+        for tree in trees:
+            if tree.health > 0:       
+                if tree.rect.y == self.rect.y:
+                    if self.rect.x - tree.rect.x <= 100:
+                        self.tree_near_beaver = True
+            elif tree.health <= 0:
+                self.tree_near_beaver = False
 
     def update(self):
         global play
@@ -114,18 +102,24 @@ text1 = f1.render("You loose", True, (0, 0, 0))
 
 
 class Seed(Parent_class):
-    def __init__(self, pikt, size_x, size_y, pos_x, pos_y, health):
+    def __init__(self, pikt, size_x, size_y, pos_x, pos_y, health, tree_number):
         super().__init__(pikt, size_x, size_y, pos_x, pos_y, health)
         self.image = pygame.transform.scale(pygame.image.load(pikt).convert_alpha(), (size_x, size_y))
         self.rect = self.image.get_rect()
         self.rect.x = pos_x
         self.rect.y = pos_y
         self.mask = pygame.mask.from_surface(self.image)
+        self.tree_number = tree_number
 
-seed1 = Seed("seed1.png", 60, 60, 60, 400, 1000)
+seed1 = Seed("seed1.png", 60, 60, 60, 400, 1000, 1)
 
+seed_oak = Seed("oak1.png", 60, 60, 60, 330, 1000, 2)
 
 seeds = pygame.sprite.Group()
+seeds_pakages = pygame.sprite.Group()
+
+seeds_pakages.add(seed1)
+seeds_pakages.add(seed_oak)
 
 class Tree(Parent_class):
     def __init__(self, pikt, size_x, size_y, pos_x, pos_y, health):
@@ -158,10 +152,12 @@ class Tree(Parent_class):
             return True
         return False
 
-tree1 = Tree("tree2.png", 100, 100, 600, 400, 200)
+tree1 = Tree("tree1.png", 100, 100, 600, 400, 200)
 trees = pygame.sprite.Group()
 tree_list.append(tree1)
 trees.add(tree1)
+
+
 
 class Shovel(Parent_class):
     def __init__(self, pikt, size_x, size_y, pos_x, pos_y, health):
@@ -389,7 +385,7 @@ class Oak(Parent_class):
     def health1(self):
         if self.health <= 0:
             self.kill()
-oak1 = Oak("oak1.png", 100, 100, 500, 500, 50)
+oak1 = Oak("tree2.png", 100, 100, 500, 500, 50)
 oaks = pygame.sprite.Group()
 oak1.add(oaks)
 tree_list.append(oak1)
@@ -451,6 +447,8 @@ last_seed_time = tm.time()
 
 shovel2 = None
 
+all_trees_list = [Tree, Oak]
+
 sun_spawn_time = tm.time()
 
 while runing:
@@ -458,30 +456,41 @@ while runing:
         if event.type == pygame.QUIT:
             runing = False
 
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if sun_amount >= 100:
-                if tm.time() - last_seed_time >= 3:
-                    if seed1.rect.collidepoint(event.pos) and not seed_cooldown:
+        if tm.time() - last_seed_time >= 3:
+            for seed in seeds_pakages:
+                tree_number = seed.tree_number
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if seed.rect.collidepoint(event.pos) and not seed_cooldown:
                         if curent_seed is None:
-                            curent_seed = Seed("tree2.png", 60, 60, event.pos[0], event.pos[1], 1000)
+                            curent_seed = Seed(f"tree{tree_number}.png", 60, 60, event.pos[0], event.pos[1], 1000, 356)
                             seed_cooldown = True
-                    elif curent_seed is not None:
-                        for cell_rect in rect_list:
-                            if cell_rect.collidepoint(event.pos):
-                                if not is_cell_ocuped(cell_rect):
-                                    tree_x, tree_y = get_cell_center(cell_rect)
-                                    tree2 = Tree("tree2.png", 100, 100, tree_x, tree_y, 3)
-                                    trees.add(tree2)
-                                    tree_list.append(tree2)
-                                    last_seed_time = tm.time()
-                                    sun_amount -= 100
-                                    f2 = pygame.font.SysFont('Caladea', 36)
-                                    text2 = f2.render(f"{sun_amount}", True, (252, 236, 0))
-                                    print(f"Дерево посаженно в клетку({tree_x}, {tree_y})")
-                                else:
-                                    print("Клетка уже занята")
-                        
-                        curent_seed = None
+                        elif curent_seed is not None:
+                            for cell_rect in rect_list:
+                                if cell_rect.collidepoint(event.pos): #не выполняется условие
+                                    print("tree_number ", tree_number)
+                                    if not is_cell_ocuped(cell_rect):
+                                        tree_x, tree_y = get_cell_center(cell_rect)
+                                        if tree_number == 1:
+                                            tree2 = Tree("tree1.png", 100, 100, tree_x, tree_y, 3)
+                                            trees.add(tree2)
+                                            tree_list.append(tree2)
+                                            last_seed_time = tm.time()
+                                            sun_amount -= 100
+                                            print("обычное дерево")
+                                        elif tree_number == 2:
+                                            oak2 = Oak("tree2.png", 100, 100, tree_x, tree_y, 50)
+                                            oaks.add(oak2)
+                                            tree_list.append(oak2)
+                                            last_seed_time = tm.time()
+                                            sun_amount -= 50
+                                            print("дуб")
+                                        f2 = pygame.font.SysFont('Caladea', 36)
+                                        text2 = f2.render(f"{sun_amount}", True, (252, 236, 0))
+                                        print(f"Дерево посаженно в клетку({tree_x}, {tree_y})")
+                                    else:
+                                        print("Клетка уже занята")
+                            
+                            curent_seed = None
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             if shovel1.rect.collidepoint(event.pos):
@@ -515,7 +524,8 @@ while runing:
         screen.blit(backgraund, (0, 0))
 
         trees.draw(screen)
-        seed1.reset()
+
+        seeds_pakages.draw(screen)
 
         screen.blit(text2, (15, 15))
 
@@ -616,7 +626,7 @@ while runing:
 
         collies_enemys = pygame.sprite.groupcollide(trees, bullets_enemy, False, True)
         for collide_enemy in collies_enemys:
-            collide_enemy.health -= 1
+            collide_enemy.health -= 2
 
         collies_trees = pygame.sprite.groupcollide(beavers, bullets_trees, False, True)
         for collide_tree in collies_trees:
