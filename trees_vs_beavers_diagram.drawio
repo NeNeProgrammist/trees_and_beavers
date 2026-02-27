@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36" version="29.3.8">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36" version="29.5.6">
   <diagram name="Страница — 1" id="tIC_WZ9eXxZFpHUOUbRm">
-    <mxGraphModel dx="2108" dy="535" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="1">
+    <mxGraphModel dx="2047" dy="510" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="1">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -325,6 +325,9 @@
         <mxCell id="g7_IcCgZ5M4OSR-dp2KY-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="убрать прорисовку сетки" vertex="1">
           <mxGeometry height="60" width="120" x="660" y="2310" as="geometry" />
         </mxCell>
+        <mxCell id="G0TuMbT4YfNvB6ZHXm4_-2" edge="1" parent="1" source="g7_IcCgZ5M4OSR-dp2KY-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="G0TuMbT4YfNvB6ZHXm4_-1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
         <mxCell id="g7_IcCgZ5M4OSR-dp2KY-3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="добавить новые виды деревьев&amp;nbsp;" vertex="1">
           <mxGeometry height="60" width="120" x="340" y="840" as="geometry" />
         </mxCell>
@@ -350,7 +353,7 @@
           <mxGeometry height="30" width="60" x="-230" y="600" as="geometry" />
         </mxCell>
         <mxCell id="wiBHCVcrovjdMd6zPcYr-1" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="исправить пересечение клеток" vertex="1">
-          <mxGeometry height="30" width="60" x="90" y="870" as="geometry" />
+          <mxGeometry height="30" width="60" x="380" y="935" as="geometry" />
         </mxCell>
         <mxCell id="wiBHCVcrovjdMd6zPcYr-2" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="flag = True&lt;div&gt;if flag = True: ....&lt;/div&gt;&lt;div&gt;flag = False&lt;/div&gt;&lt;div&gt;if Flag = False:&lt;/div&gt;&lt;div&gt;flag = True&lt;/div&gt;" vertex="1">
           <mxGeometry height="30" width="155" x="-295" y="840" as="geometry" />
@@ -403,13 +406,16 @@
           <mxGeometry height="60" width="120" x="670" y="3490" as="geometry" />
         </mxCell>
         <mxCell id="T-w3k3QMIKf-cGDLsgGo-7" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="сделать так, что бы кусок кода для сажания деревьев работал для всех видов деревьев" vertex="1">
-          <mxGeometry height="70" width="120" x="330" y="1020" as="geometry" />
+          <mxGeometry height="70" width="120" x="670" y="3740" as="geometry" />
         </mxCell>
         <mxCell id="ZFJplIOnb6XKvdvOa-le-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="нарисовать текстуру дубу" vertex="1">
-          <mxGeometry height="60" width="120" x="60" y="910" as="geometry" />
+          <mxGeometry height="60" width="120" x="670" y="3570" as="geometry" />
         </mxCell>
         <mxCell id="ZFJplIOnb6XKvdvOa-le-3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="доделать остановку бобров" vertex="1">
-          <mxGeometry height="60" width="120" x="50" y="1010" as="geometry" />
+          <mxGeometry height="60" width="120" x="670" y="3650" as="geometry" />
+        </mxCell>
+        <mxCell id="G0TuMbT4YfNvB6ZHXm4_-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="добавление дуба" vertex="1">
+          <mxGeometry height="60" width="120" x="670" y="3840" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

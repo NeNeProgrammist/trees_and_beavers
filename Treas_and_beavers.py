@@ -61,16 +61,17 @@ class Beaver(Parent_class):
         self.tree_near_beaver = False
 
     def is_beaver_cell_ocuped(self):
-        for tree in trees:
+        self.tree_near_beaver = False
+        for tree in tree_list:
             if tree.health > 0:       
-                if tree.rect.y == self.rect.y:
-                    if self.rect.x - tree.rect.x <= 100:
+                if 50 > (tree.rect.y - self.rect.y):
+                    if 0 < (self.rect.x - tree.rect.x) <= 100:
                         self.tree_near_beaver = True
-            elif tree.health <= 0:
-                self.tree_near_beaver = False
+                        return
 
     def update(self):
         global play
+        self.is_beaver_cell_ocuped()
         if self.tree_near_beaver == False:
             self.rect.x -= self.speed
         if self.rect.x <= 0:
@@ -385,10 +386,7 @@ class Oak(Parent_class):
     def health1(self):
         if self.health <= 0:
             self.kill()
-oak1 = Oak("tree2.png", 100, 100, 500, 500, 50)
 oaks = pygame.sprite.Group()
-oak1.add(oaks)
-tree_list.append(oak1)
 
 clock = pygame.time.Clock()
 
@@ -442,7 +440,6 @@ def get_cell_center(cell_rect):
     return cell_rect.left, cell_rect.top
 
 curent_seed = None
-seed_cooldown = False
 last_seed_time = tm.time()
 
 shovel2 = None
@@ -455,42 +452,45 @@ while runing:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             runing = False
-
-        if tm.time() - last_seed_time >= 3:
+        if event.type == pygame.MOUSEBUTTONDOWN:
             for seed in seeds_pakages:
-                tree_number = seed.tree_number
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if seed.rect.collidepoint(event.pos) and not seed_cooldown:
-                        if curent_seed is None:
-                            curent_seed = Seed(f"tree{tree_number}.png", 60, 60, event.pos[0], event.pos[1], 1000, 356)
-                            seed_cooldown = True
-                        elif curent_seed is not None:
-                            for cell_rect in rect_list:
-                                if cell_rect.collidepoint(event.pos): #не выполняется условие
-                                    print("tree_number ", tree_number)
-                                    if not is_cell_ocuped(cell_rect):
-                                        tree_x, tree_y = get_cell_center(cell_rect)
-                                        if tree_number == 1:
-                                            tree2 = Tree("tree1.png", 100, 100, tree_x, tree_y, 3)
-                                            trees.add(tree2)
-                                            tree_list.append(tree2)
-                                            last_seed_time = tm.time()
-                                            sun_amount -= 100
-                                            print("обычное дерево")
-                                        elif tree_number == 2:
-                                            oak2 = Oak("tree2.png", 100, 100, tree_x, tree_y, 50)
-                                            oaks.add(oak2)
-                                            tree_list.append(oak2)
-                                            last_seed_time = tm.time()
-                                            sun_amount -= 50
-                                            print("дуб")
-                                        f2 = pygame.font.SysFont('Caladea', 36)
-                                        text2 = f2.render(f"{sun_amount}", True, (252, 236, 0))
-                                        print(f"Дерево посаженно в клетку({tree_x}, {tree_y})")
-                                    else:
-                                        print("Клетка уже занята")
-                            
+                if seed.rect.collidepoint(event.pos):
+                    if sun_amount >= 100:
+                        curent_seed = Seed(f"tree{seed.tree_number}.png", 60, 60, event.pos[0], event.pos[1], 1000, seed.tree_number)
+                        last_seed_time = tm.time()
+                    break
+            if curent_seed is not None:
+                for cell_rect in rect_list:
+                    if cell_rect.collidepoint(event.pos): #не выполняется условие
+                        if not is_cell_ocuped(cell_rect):
+                            tree_x, tree_y = get_cell_center(cell_rect)
+                            if curent_seed.tree_number == 1:
+                                if sun_amount >= 100:
+                                    tree2 = Tree("tree1.png", 100, 100, tree_x, tree_y, 3)
+                                    trees.add(tree2)
+                                    tree_list.append(tree2)
+                                    sun_amount -= 100
+                                    print("обычное дерево")
+                                else:
+                                    break
+                            elif curent_seed.tree_number == 2:
+                                if sun_amount >= 50:
+                                    oak2 = Oak("tree2.png", 100, 100, tree_x, tree_y, 50)
+                                    oaks.add(oak2)
+                                    tree_list.append(oak2)
+                                    sun_amount -= 50
+                                    print("дуб")
+                                else:
+                                    break
+                            f2 = pygame.font.SysFont('Caladea', 36)
+                            text2 = f2.render(f"{sun_amount}", True, (252, 236, 0))
+                            print(f"Дерево посаженно в клетку({tree_x}, {tree_y})")
+
+                            curent_seed.kill()
                             curent_seed = None
+                            break
+                        else:
+                            print("Клетка уже занята")
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             if shovel1.rect.collidepoint(event.pos):
@@ -508,9 +508,6 @@ while runing:
                                 collide_showel.kill()
                                 shovel2.kill()
                 shovel2 = None
-
-    if seed_cooldown and tm.time() - last_seed_time >= 0:
-        seed_cooldown = False
 
     if curent_seed is not None:
         curent_seed.rect.x = pygame.mouse.get_pos()[0] - curent_seed.rect.width // 2
@@ -630,7 +627,7 @@ while runing:
 
         collies_trees = pygame.sprite.groupcollide(beavers, bullets_trees, False, True)
         for collide_tree in collies_trees:
-            collide_tree.health -= 2
+            collide_tree.health -= 3
 
         collies_woodpickers = pygame.sprite.groupcollide(woodpeckers, bullets_trees, False, True)
         for collide_woodpicker in collies_woodpickers:
