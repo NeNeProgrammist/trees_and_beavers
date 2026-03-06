@@ -54,21 +54,21 @@ tree_list = []
 
 
 class Beaver(Parent_class):
-    def __init__(self, pikt, size_x, size_y, pos_x, pos_y, speed, health):
+    def __init__(self, pikt, size_x, size_y, pos_x, pos_y, speed, health, tree_near_beaver):
         super().__init__(pikt, size_x, size_y, pos_x, pos_y, health)
         self.speed = speed
         self.start_time = tm.time()
-        self.tree_near_beaver = False
+        self.tree_near_beaver = tree_near_beaver
 
     def is_beaver_cell_ocuped(self):
         self.tree_near_beaver = False
         for tree in tree_list:
-            if tree.health > 0:       
-                if 50 > (tree.rect.y - self.rect.y):
-                    if 0 < (self.rect.x - tree.rect.x) <= 100:
+            #if tree.health > 0:       
+            if 20 >= (self.rect.y - tree.rect.y) and (tree.rect.y - self.rect.y) <= 20:
+                if 0 < (self.rect.x - tree.rect.x) <= 100:
+                    if tree in tree_list:
                         self.tree_near_beaver = True
-                        return
-
+                        #print(self.tree_near_beaver)
     def update(self):
         global play
         self.is_beaver_cell_ocuped()
@@ -90,7 +90,7 @@ class Beaver(Parent_class):
                 self.start_time = tm.time()
 
 beavers = pygame.sprite.Group()
-beaver1 = Beaver("beaver2.png", 90, 50, 1650, 400, 2, 200)
+beaver1 = Beaver("beaver2.png", 90, 50, 1650, 400, 2, 200, False)
 beavers.add(beaver1)
 
 shoting = False
@@ -98,8 +98,7 @@ shoting = False
 sun_amount = 1300
 
 f1 = pygame.font.SysFont('Caladea', 36)
-text1 = f1.render("You loose", True, (0, 0, 0))
-
+text1 = f1.render("You lose", True, (0, 0, 0))
 
 
 class Seed(Parent_class):
@@ -136,6 +135,7 @@ class Tree(Parent_class):
     def health1(self):
         if self.health <= 0:
             self.kill()
+            tree_list.remove(self)
 
     def fire2(self):
         if self.health > 0:          
@@ -407,8 +407,6 @@ road_clones = 0
 
 rect_x = 20
 rect_y = 130
-tree1_id = id(tree1)
-tree_rect_dict = {tree1_id : 4}
 
 while cell_clones <= 4:
     while road_clones <= 8:
@@ -444,8 +442,6 @@ last_seed_time = tm.time()
 
 shovel2 = None
 
-all_trees_list = [Tree, Oak]
-
 sun_spawn_time = tm.time()
 
 while runing:
@@ -475,7 +471,7 @@ while runing:
                                     break
                             elif curent_seed.tree_number == 2:
                                 if sun_amount >= 50:
-                                    oak2 = Oak("tree2.png", 100, 100, tree_x, tree_y, 50)
+                                    oak2 = Oak("tree2.png", 100, 100, tree_x, tree_y, 10)
                                     oaks.add(oak2)
                                     tree_list.append(oak2)
                                     sun_amount -= 50
@@ -506,6 +502,13 @@ while runing:
                                 if collide_showel in tree_list:
                                     tree_list.remove(collide_showel)
                                 collide_showel.kill()
+                                shovel2.kill()
+
+                            collies_showels_oak = pygame.sprite.groupcollide(shovels, oaks, True, True)
+                            for collide_showel_oak in collies_showels_oak:
+                                if collide_showel_oak in tree_list:
+                                    tree_list.remove(collide_showel_oak)
+                                collide_showel_oak.kill()
                                 shovel2.kill()
                 shovel2 = None
 
@@ -551,7 +554,10 @@ while runing:
 
         seeds.draw(screen)
         beavers.draw(screen)
-        beavers.update()
+        for super_move_beaver in beavers:
+            super_move_beaver.update()
+
+        #beavers.update()
         woodpeckers.draw(screen)
         woodpeckers.update()  # Обновляем дятлов каждый кадр
 
@@ -578,19 +584,19 @@ while runing:
 
         if tm.time() - start_time >= 5:
             if beaver_road == 1:
-                beaver2 = Beaver("beaver2.png", 90, 50, 1650, 130, 2, 2)
+                beaver2 = Beaver("beaver2.png", 90, 50, 1650, 130, 2, 2, False)
                 beavers.add(beaver2)
             if beaver_road == 2:
-                beaver3 = Beaver("beaver2.png", 90, 50, 1650, 257, 2, 2)
+                beaver3 = Beaver("beaver2.png", 90, 50, 1650, 257, 2, 2, False)
                 beavers.add(beaver3)
             if beaver_road == 3:
-                beaver4 = Beaver("beaver2.png", 90, 50, 1650, 384, 2, 2)
+                beaver4 = Beaver("beaver2.png", 90, 50, 1650, 384, 2, 2, False)
                 beavers.add(beaver4)
             if beaver_road == 4:
-                beaver5 = Beaver("beaver2.png", 90, 50, 1650, 511, 2, 2)
+                beaver5 = Beaver("beaver2.png", 90, 50, 1650, 511, 2, 2, False)
                 beavers.add(beaver5)
             if beaver_road == 5:
-                beaver6 = Beaver("beaver2.png", 90, 50, 1650, 638, 2, 2)
+                beaver6 = Beaver("beaver2.png", 90, 50, 1650, 638, 2, 2, False)
                 beavers.add(beaver6)
                 
             beaver_road = random.randint(1, 5)
@@ -642,5 +648,5 @@ while runing:
 
     clock.tick(60)
     pygame.display.flip()
-
+    print(trees, "trees", tree_list, "tree_list")
 pygame.quit()
