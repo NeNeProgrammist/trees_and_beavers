@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36" version="29.5.6">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36" version="29.6.1">
   <diagram name="Страница — 1" id="tIC_WZ9eXxZFpHUOUbRm">
-    <mxGraphModel dx="2047" dy="510" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="1">
+    <mxGraphModel dx="2250" dy="594" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="1">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -352,7 +352,7 @@
         <mxCell id="FKpIY5v_AAAglNMt0Rm8-2" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="починить vscode&lt;br&gt;сделать комит&lt;div&gt;работа с методом update у дятла(проверить условие движения и наличие в словаре объекта)&lt;/div&gt;" vertex="1">
           <mxGeometry height="30" width="60" x="-230" y="600" as="geometry" />
         </mxCell>
-        <mxCell id="wiBHCVcrovjdMd6zPcYr-1" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="исправить пересечение клеток" vertex="1">
+        <mxCell id="wiBHCVcrovjdMd6zPcYr-1" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="исправить пересечение клеток&lt;div&gt;?(пока не наблюдается)&lt;/div&gt;" vertex="1">
           <mxGeometry height="30" width="60" x="380" y="935" as="geometry" />
         </mxCell>
         <mxCell id="wiBHCVcrovjdMd6zPcYr-2" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="flag = True&lt;div&gt;if flag = True: ....&lt;/div&gt;&lt;div&gt;flag = False&lt;/div&gt;&lt;div&gt;if Flag = False:&lt;/div&gt;&lt;div&gt;flag = True&lt;/div&gt;" vertex="1">
@@ -416,6 +416,9 @@
         </mxCell>
         <mxCell id="G0TuMbT4YfNvB6ZHXm4_-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="добавление дуба" vertex="1">
           <mxGeometry height="60" width="120" x="670" y="3840" as="geometry" />
+        </mxCell>
+        <mxCell id="w4Dxd0JyU3rAaPRYfh3L-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="исправление бага с остановкой бобров" vertex="1">
+          <mxGeometry height="60" width="120" x="670" y="3920" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

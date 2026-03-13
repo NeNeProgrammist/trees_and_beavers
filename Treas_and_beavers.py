@@ -74,6 +74,7 @@ class Beaver(Parent_class):
         self.is_beaver_cell_ocuped()
         if self.tree_near_beaver == False:
             self.rect.x -= self.speed
+            self.is_beaver_cell_ocuped()
         if self.rect.x <= 0:
             play = False
 
@@ -134,8 +135,8 @@ class Tree(Parent_class):
 
     def health1(self):
         if self.health <= 0:
-            self.kill()
             tree_list.remove(self)
+            self.kill()
 
     def fire2(self):
         if self.health > 0:          
@@ -153,10 +154,10 @@ class Tree(Parent_class):
             return True
         return False
 
-tree1 = Tree("tree1.png", 100, 100, 600, 400, 200)
+#tree1 = Tree("tree1.png", 100, 100, 600, 400, 200)
 trees = pygame.sprite.Group()
-tree_list.append(tree1)
-trees.add(tree1)
+#tree_list.append(tree1)
+#trees.add(tree1)
 
 
 
@@ -385,6 +386,8 @@ class Oak(Parent_class):
     
     def health1(self):
         if self.health <= 0:
+            if self in tree_list:
+                tree_list.remove(self)
             self.kill()
 oaks = pygame.sprite.Group()
 
@@ -420,7 +423,7 @@ while cell_clones <= 4:
     cell_clones += 1
 
 grid_syrface = pygame.Surface((screen_x, screen_y), pygame.SRCALPHA)
-grid_color = (255, 255, 255, 0)
+grid_color = (0, 255, 0, 0)
 
 for rect_in_list in rect_list:
     pygame.draw.rect(grid_syrface, grid_color, rect_in_list, 1)
@@ -442,7 +445,14 @@ last_seed_time = tm.time()
 
 shovel2 = None
 
+wave_flag = False
+
+wave_beaver_road = random.randint(1, 5)
+wave_woodpecker_road = random.randint(1, 5)
+
 sun_spawn_time = tm.time()
+
+wave_time = tm.time()
 
 while runing:
     for event in pygame.event.get():
@@ -497,17 +507,18 @@ while runing:
                 for cell_rect in rect_list:
                     if is_cell_ocuped(cell_rect):
                         if event.type == pygame.MOUSEBUTTONDOWN:
-                            collies_showels = pygame.sprite.groupcollide(shovels, trees, True, True)
+                            collies_showels = pygame.sprite.groupcollide(trees, shovels, True, True)
                             for collide_showel in collies_showels:
-                                if collide_showel in tree_list:
-                                    tree_list.remove(collide_showel)
+                                #if collide_showel in tree_list:
+                                print(collide_showel)
+                                tree_list.remove(collide_showel)
                                 collide_showel.kill()
                                 shovel2.kill()
 
-                            collies_showels_oak = pygame.sprite.groupcollide(shovels, oaks, True, True)
+                            collies_showels_oak = pygame.sprite.groupcollide(oaks, shovels, True, True)
                             for collide_showel_oak in collies_showels_oak:
-                                if collide_showel_oak in tree_list:
-                                    tree_list.remove(collide_showel_oak)
+                                #if collide_showel_oak in tree_list:
+                                tree_list.remove(collide_showel_oak)
                                 collide_showel_oak.kill()
                                 shovel2.kill()
                 shovel2 = None
@@ -622,6 +633,31 @@ while runing:
             woodpecker_road = random.randint(1, 5)
             woodpecker_spawn_time = tm.time()
 
+        if wave_time - tm.time == 60:
+            wave_flag = True
+
+        if wave_flag == True:
+            for i in range(5):
+                if wave_beaver_road == 1:
+                    beaver2 = Beaver("beaver2.png", 90, 50, 1650, 130, 2, 2, False)
+                    beavers.add(beaver2)
+                if wave_beaver_road == 2:
+                    beaver3 = Beaver("beaver2.png", 90, 50, 1650, 257, 2, 2, False)
+                    beavers.add(beaver3)
+                if wave_beaver_road == 3:
+                    beaver4 = Beaver("beaver2.png", 90, 50, 1650, 384, 2, 2, False)
+                    beavers.add(beaver4)
+                if wave_beaver_road == 4:
+                    beaver5 = Beaver("beaver2.png", 90, 50, 1650, 511, 2, 2, False)
+                    beavers.add(beaver5)
+                if wave_beaver_road == 5:
+                    beaver6 = Beaver("beaver2.png", 90, 50, 1650, 638, 2, 2, False)
+                    beavers.add(beaver6)
+                    
+                wave_beaver_road = random.randint(1, 5)
+            wave_flag = False
+
+
         bullets_enemy.draw(screen)
         bullets_enemy.update()
         bullets_trees.draw(screen)
@@ -648,5 +684,4 @@ while runing:
 
     clock.tick(60)
     pygame.display.flip()
-    print(trees, "trees", tree_list, "tree_list")
 pygame.quit()
