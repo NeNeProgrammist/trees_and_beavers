@@ -63,7 +63,6 @@ class Beaver(Parent_class):
     def is_beaver_cell_ocuped(self):
         self.tree_near_beaver = False
         for tree in tree_list:
-            #if tree.health > 0:       
             if 20 >= (self.rect.y - tree.rect.y) and (tree.rect.y - self.rect.y) <= 20:
                 if 0 < (self.rect.x - tree.rect.x) <= 100:
                     if tree in tree_list:
@@ -91,8 +90,6 @@ class Beaver(Parent_class):
                 self.start_time = tm.time()
 
 beavers = pygame.sprite.Group()
-beaver1 = Beaver("beaver2.png", 90, 50, 1650, 400, 2, 200, False)
-beavers.add(beaver1)
 
 shoting = False
 
@@ -300,9 +297,7 @@ class Woodpecker(Parent_class):
                 return
 
 
-woodpecker1 = Woodpecker(f"anim_pecking/woodpicker1.png", 45, 75, 1650, 257, 6, 2)
 woodpeckers = pygame.sprite.Group()
-woodpeckers.add(woodpecker1)
 
 class Anim_pecking(pygame.sprite.Sprite):
     def __init__(self, x, y):
@@ -391,6 +386,51 @@ class Oak(Parent_class):
             self.kill()
 oaks = pygame.sprite.Group()
 
+class Bug(Parent_class):
+    def __init__(self, pikt, size_x, size_y, pos_x, pos_y, speed, health, tree_near_bug):
+        super().__init__(pikt, size_x, size_y, pos_x, pos_y, health)
+        self.speed = speed
+        self.start_time = tm.time()
+        self.tree_near_bug = tree_near_bug
+
+    def is_bug_cell_ocuped(self):
+        self.tree_near_bug = False
+        for tree in tree_list:
+            if 20 >= (self.rect.y - tree.rect.y) and (tree.rect.y - self.rect.y) <= 20:
+                if 0 < (self.rect.x - tree.rect.x) <= 100:
+                    if tree in tree_list:
+                        self.tree_near_bug = True
+                        #print(self.tree_near_beaver)
+    def update(self):
+        global play
+        self.is_bug_cell_ocuped()
+        if self.tree_near_bug == False:
+            self.rect.x -= self.speed
+            self.is_bug_cell_ocuped()
+        else:
+            self.exploshen()
+        if self.rect.x <= 0:
+            play = False
+        
+
+    def health1(self):
+        if self.health <= 0:
+            self.kill()
+
+    def exploshen(self):
+        for tree in tree_list:
+            if (self.rect.height * 3) >= (self.rect.y - tree.rect.y) and (tree.rect.y - self.rect.y) <= (self.rect.height * 3):
+                if (self.rect.x - tree.rect.x) <= 390:
+                    if tree in tree_list:
+                        tree.kill()
+                        self.kill()
+
+
+bugs = pygame.sprite.Group()
+bug1 = Bug("beaver1.png", 90, 50, 1650, 130, 3, 1000, False)
+bugs.add(bug1)
+
+
 clock = pygame.time.Clock()
 
 runing = True
@@ -454,6 +494,10 @@ sun_spawn_time = tm.time()
 
 wave_time = tm.time()
 
+beaver_wawe_count = 5
+
+woodpecker_wave_count = 1
+
 while runing:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -481,7 +525,7 @@ while runing:
                                     break
                             elif curent_seed.tree_number == 2:
                                 if sun_amount >= 50:
-                                    oak2 = Oak("tree2.png", 100, 100, tree_x, tree_y, 10)
+                                    oak2 = Oak("tree2.png", 100, 100, tree_x, tree_y, 100000)
                                     oaks.add(oak2)
                                     tree_list.append(oak2)
                                     sun_amount -= 50
@@ -501,7 +545,7 @@ while runing:
         if event.type == pygame.MOUSEBUTTONDOWN:
             if shovel1.rect.collidepoint(event.pos):
                 if shovel2 is None:
-                    shovel2 = Shovel("shovel2.png", 50, 50, event.pos[0], event.pos[1], 10000)
+                    shovel2 = Shovel("shovel2.png", 50, 50, event.pos[0], event.pos[1], 100)
                     shovels.add(shovel2)
             elif shovel2 is not None:
                 for cell_rect in rect_list:
@@ -565,8 +609,7 @@ while runing:
 
         seeds.draw(screen)
         beavers.draw(screen)
-        for super_move_beaver in beavers:
-            super_move_beaver.update()
+        beavers.update()
 
         #beavers.update()
         woodpeckers.draw(screen)
@@ -586,6 +629,13 @@ while runing:
             beaver.fire1()
             beaver.health1()
             beaver.is_beaver_cell_ocuped()
+
+        for bug in bugs:
+            bug.health1()
+            bug.is_bug_cell_ocuped()
+
+        bugs.draw(screen)
+        bugs.update()
 
         oaks.draw(screen)
         for oak in oaks:
@@ -633,28 +683,37 @@ while runing:
             woodpecker_road = random.randint(1, 5)
             woodpecker_spawn_time = tm.time()
 
-        if wave_time - tm.time == 60:
+        if tm.time() - wave_time >= 60:
             wave_flag = True
+            wave_time = tm.time()
 
         if wave_flag == True:
-            for i in range(5):
+            for i in range(beaver_wawe_count):
                 if wave_beaver_road == 1:
-                    beaver2 = Beaver("beaver2.png", 90, 50, 1650, 130, 2, 2, False)
+                    beaver2 = Beaver("beaver2.png", 90, 50, random.randint(1650, 1850), 130, 2, 2, False)
                     beavers.add(beaver2)
                 if wave_beaver_road == 2:
-                    beaver3 = Beaver("beaver2.png", 90, 50, 1650, 257, 2, 2, False)
+                    beaver3 = Beaver("beaver2.png", 90, 50, random.randint(1650, 1850), 257, 2, 2, False)
                     beavers.add(beaver3)
                 if wave_beaver_road == 3:
-                    beaver4 = Beaver("beaver2.png", 90, 50, 1650, 384, 2, 2, False)
+                    beaver4 = Beaver("beaver2.png", 90, 50, random.randint(1650, 1850), 384, 2, 2, False)
                     beavers.add(beaver4)
                 if wave_beaver_road == 4:
-                    beaver5 = Beaver("beaver2.png", 90, 50, 1650, 511, 2, 2, False)
+                    beaver5 = Beaver("beaver2.png", 90, 50, random.randint(1650, 1850), 511, 2, 2, False)
                     beavers.add(beaver5)
                 if wave_beaver_road == 5:
-                    beaver6 = Beaver("beaver2.png", 90, 50, 1650, 638, 2, 2, False)
+                    beaver6 = Beaver("beaver2.png", 90, 50, random.randint(1650, 1850), 638, 2, 2, False)
                     beavers.add(beaver6)
                     
                 wave_beaver_road = random.randint(1, 5)
+            if beaver_wawe_count >= 6:
+                for i in range(woodpecker_wave_count):
+                    woodpecker4 = Woodpecker("woodpicker1.png", 45, 75, 1650, random.randint(130, 638), 6, 2)
+                    woodpeckers.add(woodpecker4)
+                if beaver_wawe_count % 2 == 0:
+                    woodpecker_wave_count += 1
+
+            beaver_wawe_count += 1
             wave_flag = False
 
 

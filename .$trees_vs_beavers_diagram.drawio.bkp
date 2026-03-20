@@ -1,6 +1,6 @@
-<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.1 Chrome/142.0.7444.265 Electron/39.8.0 Safari/537.36" version="29.6.1">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36" version="29.6.1">
   <diagram name="Страница — 1" id="tIC_WZ9eXxZFpHUOUbRm">
-    <mxGraphModel dx="1869" dy="634" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="1">
+    <mxGraphModel dx="2250" dy="594" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="1">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -419,21 +419,6 @@
         </mxCell>
         <mxCell id="w4Dxd0JyU3rAaPRYfh3L-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="исправление бага с остановкой бобров" vertex="1">
           <mxGeometry height="60" width="120" x="670" y="3920" as="geometry" />
-        </mxCell>
-        <mxCell id="3ZJH-sOTPULkgMON2TVd-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="добавление механики волн бобров" vertex="1">
-          <mxGeometry height="60" width="120" x="670" y="4000" as="geometry" />
-        </mxCell>
-        <mxCell id="3ZJH-sOTPULkgMON2TVd-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="сделать так, что бы деревья и бобры стреляли, только когда на линии кто-то есть" vertex="1">
-          <mxGeometry height="85" width="120" x="50" y="875" as="geometry" />
-        </mxCell>
-        <mxCell id="3ZJH-sOTPULkgMON2TVd-3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="анимация поподания снарядов" vertex="1">
-          <mxGeometry height="60" width="120" x="50" y="980" as="geometry" />
-        </mxCell>
-        <mxCell id="3ZJH-sOTPULkgMON2TVd-4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="сделать новых врагов, жуков" vertex="1">
-          <mxGeometry height="60" width="120" x="350" y="1000" as="geometry" />
-        </mxCell>
-        <mxCell id="3ZJH-sOTPULkgMON2TVd-5" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="жуки - быстро выбегают, когда сопрекасаются с деревом - то он взрывается нанося урон в области 3 на 3 клетки" vertex="1">
-          <mxGeometry height="30" width="60" x="-490" y="870" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
