@@ -424,16 +424,19 @@
           <mxGeometry height="60" width="120" x="670" y="4000" as="geometry" />
         </mxCell>
         <mxCell id="3ZJH-sOTPULkgMON2TVd-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="сделать так, что бы деревья и бобры стреляли, только когда на линии кто-то есть" vertex="1">
-          <mxGeometry height="85" width="120" x="50" y="875" as="geometry" />
+          <mxGeometry height="85" width="120" x="350" y="1010" as="geometry" />
         </mxCell>
         <mxCell id="3ZJH-sOTPULkgMON2TVd-3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="анимация поподания снарядов" vertex="1">
-          <mxGeometry height="60" width="120" x="50" y="980" as="geometry" />
+          <mxGeometry height="60" width="120" x="60" y="870" as="geometry" />
         </mxCell>
         <mxCell id="3ZJH-sOTPULkgMON2TVd-4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="сделать новых врагов, жуков" vertex="1">
-          <mxGeometry height="60" width="120" x="350" y="1000" as="geometry" />
+          <mxGeometry height="60" width="120" x="680" y="4160" as="geometry" />
         </mxCell>
         <mxCell id="3ZJH-sOTPULkgMON2TVd-5" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="жуки - быстро выбегают, когда сопрекасаются с деревом - то он взрывается нанося урон в области 3 на 3 клетки" vertex="1">
           <mxGeometry height="30" width="60" x="-490" y="870" as="geometry" />
+        </mxCell>
+        <mxCell id="D4JRtpu6Ua6ogUA6Xz9d-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="исправить баг: на клетку с дубом можно посадить дерево" vertex="1">
+          <mxGeometry height="60" width="120" x="670" y="4080" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
