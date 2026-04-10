@@ -58,9 +58,37 @@ class Beaver(Parent_class):
     def __init__(self, pikt, size_x, size_y, pos_x, pos_y, speed, health, tree_near_beaver, beaver_road_f):
         super().__init__(pikt, size_x, size_y, pos_x, pos_y, health)
         self.speed = speed
+        self.images = []
         self.start_time = tm.time()
         self.tree_near_beaver = tree_near_beaver
         self.beaver_road_f = beaver_road_f
+        self.animacion_counter = 0
+        self.animacion_speed = 3
+        self.peck_derektion = 1
+        self.original_x = pos_x
+        self.original_y = pos_y
+        for i in range(2, 4):
+            img = pygame.image.load(f"beaver{i}.png")
+            img = pygame.transform.scale(img, (size_x, size_y))
+            self.images.append(img)
+        self.curent_frame = 0
+        self.image = self.images[self.curent_frame]
+        self.rect = self.image.get_rect()
+
+    def update_animasion(self):
+        if self.tree_near_beaver == False:
+            self.animacion_counter += 1
+            if self.animacion_counter >= self.animacion_speed:
+                self.animacion_counter = 0
+                self.curent_frame = (self.curent_frame + 1) % len(self.images)
+                self.image = self.images[self.curent_frame]
+
+            if self.curent_frame <= 2:
+                self.rect.x = self.original_x - 5
+                self.rect.y = self.original_y + 3
+            else:
+                self.rect.x = self.original_x
+                self.rect.y = self.original_y
 
     def is_beaver_cell_ocuped(self):
         self.tree_near_beaver = False
@@ -69,7 +97,6 @@ class Beaver(Parent_class):
                 if 0 < (self.rect.x - tree.rect.x) <= 100:
                     if tree in tree_list:
                         self.tree_near_beaver = True
-                        #print(self.tree_near_beaver)
 
     def is_beaver_road_ocuped(self):
         self.beaver_road_f = False
@@ -82,6 +109,7 @@ class Beaver(Parent_class):
         global play
         self.is_beaver_cell_ocuped()
         if self.tree_near_beaver == False:
+            self.update_animasion()
             self.rect.x -= self.speed
             self.is_beaver_cell_ocuped()
         if self.rect.x <= 0:
@@ -328,7 +356,7 @@ class Woodpecker(Parent_class):
 
 woodpeckers = pygame.sprite.Group()
 
-class Anim_pecking(pygame.sprite.Sprite):
+'''class Anim_pecking(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
         self.images = []
@@ -359,6 +387,7 @@ class Anim_pecking(pygame.sprite.Sprite):
             self.kill()
 
 anim_pecking_group = pygame.sprite.Group()
+'''
 
 class Anim_exploushen(pygame.sprite.Sprite):
     def __init__(self, x, y, size_x, size_y):
@@ -393,6 +422,38 @@ class Anim_exploushen(pygame.sprite.Sprite):
             self.kill()
 
 anim_exp_groop = pygame.sprite.Group()
+
+class Anim_walk_beaver(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        pygame.sprite.Sprite.__init__(self)
+        self.images = []
+        for num in range(2, 4):
+            img = pygame.image.load(f"beaver{num}.png")
+            img = pygame.transform.scale(img, (45, 75))
+            self.images.append(img)
+        self.index = 0
+        self.image = self.images[self.index]
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+        self.counter = 0
+          
+
+    def update(self):
+        explosion_speed = 6
+        #update explosion animation
+        self.counter += 1
+
+        if self.counter >= explosion_speed and self.index < len(self.images) - 1:
+            self.counter = 0
+            self.index += 1
+            self.image = self.images[self.index]
+
+        #if the animation is complete, reset animation index
+        if self.index >= len(self.images) - 1 and self.counter >= explosion_speed:
+            self.kill()
+
+anim_w_beaver_groop = pygame.sprite.Group()
 
 class Sun(Parent_class):
     def __init__(self, pikt, size_x, size_y, pos_x, pos_y, health, speed, sun_cord_y):
@@ -472,7 +533,7 @@ class Bug(Parent_class):
             self.is_bug_cell_ocuped()
         else:
             self.exploshen()
-            exp = Anim_exploushen(self.rect.centerx - 245, self.rect.centery - 245, 390, 351)
+            exp = Anim_exploushen(self.rect.centerx - 245, self.rect.centery - 215, 390, 351)
             anim_exp_groop.add(exp)
         if self.rect.x <= 0:
             play = False
@@ -591,7 +652,6 @@ while runing:
                                     trees.add(tree2)
                                     tree_list.append(tree2)
                                     sun_amount -= 100
-                                    print("обычное дерево")
                                 else:
                                     break
                             elif curent_seed.tree_number == 2:
@@ -600,12 +660,10 @@ while runing:
                                     oaks.add(oak2)
                                     tree_list.append(oak2)
                                     sun_amount -= 50
-                                    print("дуб")
                                 else:
                                     break
                             f2 = pygame.font.SysFont('Caladea', 36)
                             text2 = f2.render(f"{sun_amount}", True, (252, 236, 0))
-                            print(f"Дерево посаженно в клетку({tree_x}, {tree_y})")
 
                             curent_seed.kill()
                             curent_seed = None
@@ -686,6 +744,8 @@ while runing:
         woodpeckers.draw(screen)
         woodpeckers.update()  # Обновляем дятлов каждый кадр
 
+        anim_w_beaver_groop.draw(screen)
+        anim_w_beaver_groop.update()
 
         for woodpecker in woodpeckers:
             woodpecker.health1()
@@ -716,23 +776,23 @@ while runing:
 
         if tm.time() - start_time >= 5:
             if beaver_road == 1:
-                beaver2 = Beaver("beaver2.png", 90, 50, 1650, 130, 2, 2, False, False)
+                beaver2 = Beaver("beaver2.png", 90, 50, 1050, 130, 2, 2, False, False)
                 beavers.add(beaver2)
                 enemy_list.append(beaver2)
             if beaver_road == 2:
-                beaver3 = Beaver("beaver2.png", 90, 50, 1650, 257, 2, 2, False, False)
+                beaver3 = Beaver("beaver2.png", 90, 50, 1050, 257, 2, 2, False, False)
                 beavers.add(beaver3)
                 enemy_list.append(beaver3)
             if beaver_road == 3:
-                beaver4 = Beaver("beaver2.png", 90, 50, 1650, 384, 2, 2, False, False)
+                beaver4 = Beaver("beaver2.png", 90, 50, 1050, 384, 2, 2, False, False)
                 beavers.add(beaver4)
                 enemy_list.append(beaver4)
             if beaver_road == 4:
-                beaver5 = Beaver("beaver2.png", 90, 50, 1650, 511, 2, 2, False, False)
+                beaver5 = Beaver("beaver2.png", 90, 50, 1050, 511, 2, 2, False, False)
                 beavers.add(beaver5)
                 enemy_list.append(beaver5)
             if beaver_road == 5:
-                beaver6 = Beaver("beaver2.png", 90, 50, 1650, 638, 2, 2, False, False)
+                beaver6 = Beaver("beaver2.png", 90, 50, 1050, 638, 2, 2, False, False)
                 beavers.add(beaver6)
                 enemy_list.append(beaver6)
                 
@@ -844,7 +904,7 @@ while runing:
         collies_enemys = pygame.sprite.groupcollide(trees, bullets_enemy, False, True)
         for collide_enemy in collies_enemys:
             collide_enemy.health -= 2
-            exp = Anim_exploushen(collide_enemy.rect.x, collide_enemy.rect.y, 50, 50)
+            exp = Anim_exploushen(collide_enemy.rect.x + 20, collide_enemy.rect.y, 50, 50)
             anim_exp_groop.add(exp)
 
 
@@ -865,14 +925,14 @@ while runing:
         collies_bugs = pygame.sprite.groupcollide(bugs, bullets_trees, False, True)
         for collide_bug in collies_bugs:
             collide_bug.health -= 2
-            exp = Anim_exploushen(collide_bug.rect.x, collide_bug.rect.y, 50, 50)
+            exp = Anim_exploushen(collide_bug.rect.x + 20, collide_bug.rect.y, 50, 50)
             anim_exp_groop.add(exp)
 
 
         collies_oaks = pygame.sprite.groupcollide(oaks, bullets_enemy, False, True)
         for collide_oak in collies_oaks:
             collide_oak.health -= 1
-            exp = Anim_exploushen(collide_oak.rect.x, collide_oak.rect.y, 50, 50)
+            exp = Anim_exploushen(collide_oak.rect.x + 20, collide_oak.rect.y, 50, 50)
             anim_exp_groop.add(exp)
 
 
