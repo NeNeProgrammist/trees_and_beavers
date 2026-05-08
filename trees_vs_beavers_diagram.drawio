@@ -474,7 +474,13 @@
           <mxGeometry height="60" width="120" x="354" y="1270" as="geometry" />
         </mxCell>
         <mxCell id="wCm-iU_mRhhbPux-Okyn-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;span style=&quot;color: rgb(51, 51, 51); font-family: Circe, sans-serif; font-size: 14px; text-align: left; white-space-collapse: preserve; background-color: rgb(236, 219, 255);&quot;&gt;ДЗ. Рефакторинг (оптимизация) кода. 1. Вынести части кода в отдельные модули. 2. Проверить, какие  функции или методы, а также переменные или свойства не используются и удалить их. Файлы картинок, музыки (если музыки нет, то создать пустую папку для неё) перенести в тематические папки. 3. Протестировать программу после рефакторинга.&lt;/span&gt;" vertex="1">
-          <mxGeometry height="440" width="120" x="50" y="870" as="geometry" />
+          <mxGeometry height="440" width="120" x="685" y="4350" as="geometry" />
+        </mxCell>
+        <mxCell id="pNC4Oww_AkBOSS6O7Dci-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="реализовать перезапуск" vertex="1">
+          <mxGeometry height="60" width="120" x="60" y="860" as="geometry" />
+        </mxCell>
+        <mxCell id="pNC4Oww_AkBOSS6O7Dci-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="сделать меню" vertex="1">
+          <mxGeometry height="60" width="120" x="60" y="940" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

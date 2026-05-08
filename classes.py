@@ -1,9 +1,6 @@
 import pygame
 import time as tm
 
-# В самом верху classes.py, после строк import pygame, time as tm
-# Добавь эти строки:
-
 tree_list = []
 enemy_list = []
 shoting = False
@@ -13,9 +10,6 @@ anim_exp_groop = None
 screen = None
 play = True
 beaver_kill_count = 0
-'''
-for event in pygame.event.get():
-    pass'''
 
 class Parent_class(pygame.sprite.Sprite):
     def __init__(self, pikt, size_x, size_y, pos_x, pos_y, health):
@@ -61,7 +55,7 @@ class Beaver(Parent_class):
         self.animacion_counter = 0
         self.animacion_speed = 3
         for i in range(2, 4):
-            img = pygame.image.load(f"beaver{i}.png")
+            img = pygame.image.load(f"sprites/beaver{i}.png")
             img = pygame.transform.scale(img, (size_x, size_y))
             self.images.append(img)
         self.curent_frame = 0
@@ -100,8 +94,6 @@ class Beaver(Parent_class):
             self.rect.x -= self.speed
             self.update_animasion()
             self.is_beaver_cell_ocuped()
-        if self.rect.x <= 0:
-            play = False
 
     def health1(self):
         global beaver_kill_count
@@ -116,7 +108,7 @@ class Beaver(Parent_class):
             if self.beaver_road_f == True:
                 if tm.time() - self.start_time >= 1:
                     if shoting == False:
-                        bullet = Bullets("bullet.png", 30, 6, self.rect.x, self.rect.y, 4, 100)
+                        bullet = Bullets("sprites/bullet.png", 30, 6, self.rect.x, self.rect.y, 4, 100)
                         bullets_enemy.add(bullet)
                     self.start_time = tm.time()
 
@@ -161,7 +153,7 @@ class Tree(Parent_class):
             if self.beaver_near_tree == True:        
                 if tm.time() - self.start_time2 >= 1:
                     if shoting == False:
-                        bullet = TreesBullets("tree_bullet.png", 30, 6, self.rect.x, self.rect.y, 6, 100)
+                        bullet = TreesBullets("sprites/tree_bullet.png", 30, 6, self.rect.x, self.rect.y, 6, 100)
                         bullets_trees.add(bullet)
                     self.start_time2 = tm.time()
 
@@ -345,15 +337,6 @@ class Sun(Parent_class):
     def update(self):
         if self.rect.y != self.sun_cord_y:
             self.rect.y += self.speed
-'''
-    def click(self):
-        global sun_amount, text2
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if self.rect.collidepoint(event.pos):
-                self.kill()
-                sun_amount += 50
-                f2 = pygame.font.SysFont('Caladea', 36)
-                text2 = f2.render(f"{sun_amount}", True, (252, 236, 0))'''
 
 class Oak(Parent_class):
     def __init__(self, pikt, size_x, size_y, pos_x, pos_y, health):
@@ -384,8 +367,27 @@ class Bug(Parent_class):
     def __init__(self, pikt, size_x, size_y, pos_x, pos_y, speed, health, tree_near_bug):
         super().__init__(pikt, size_x, size_y, pos_x, pos_y, health)
         self.speed = speed
+        self.images = []
         self.start_time = tm.time()
         self.tree_near_bug = tree_near_bug
+        self.animacion_counter = 0
+        self.animacion_speed = 5
+        for i in range(1, 3):
+            img = pygame.image.load(f"sprites/bug{i}.png")
+            img = pygame.transform.scale(img, (size_x, size_y))
+            self.images.append(img)
+        self.curent_frame = 0
+        self.image = self.images[self.curent_frame]
+        self.rect = self.image.get_rect()
+        self.rect.x = pos_x
+        self.rect.y = pos_y
+
+    def update_animasion(self):
+        self.animacion_counter += 1
+        if self.animacion_counter >= self.animacion_speed:
+            self.animacion_counter = 0
+            self.curent_frame = (self.curent_frame + 1) % len(self.images)
+            self.image = self.images[self.curent_frame]
 
     def is_bug_cell_ocuped(self):
         self.tree_near_bug = False
@@ -398,6 +400,7 @@ class Bug(Parent_class):
     def update(self):
         global play
         self.is_bug_cell_ocuped()
+        self.update_animasion()
         if self.tree_near_bug == False:
             self.rect.x -= self.speed
             self.is_bug_cell_ocuped()
