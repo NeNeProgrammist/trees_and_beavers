@@ -333,9 +333,30 @@ class Sun(Parent_class):
         self.mask = pygame.mask.from_surface(self.image)
         self.speed = speed
         self.sun_cord_y = sun_cord_y
+        self.animacion_counter = 0
+        self.animacion_speed = 20
+        self.images = []
+        for i in range(1, 4):
+            img = pygame.image.load(f"sprites/sun{i}.png")
+            img = pygame.transform.scale(img, (size_x, size_y))
+            self.images.append(img)
+        self.curent_frame = 0
+        self.image = self.images[self.curent_frame]
+        self.rect = self.image.get_rect()
+        self.rect.x = pos_x
+        self.rect.y = pos_y
+
+    def update_animasion(self):
+        self.animacion_counter += 1
+        if self.animacion_counter >= self.animacion_speed:
+            self.animacion_counter = 0
+            self.curent_frame = (self.curent_frame + 1) % len(self.images)
+            self.image = self.images[self.curent_frame]
+
 
     def update(self):
         if self.rect.y != self.sun_cord_y:
+            self.update_animasion()
             self.rect.y += self.speed
 
 class Oak(Parent_class):
@@ -346,7 +367,7 @@ class Oak(Parent_class):
         self.rect.x = pos_x
         self.rect.y = pos_y
         self.mask = pygame.mask.from_surface(self.image)
-        self.start_time2 = tm.time()
+        #self.start_time2 = tm.time()
         self.amount = 50
 
     def take_hit(self):
@@ -425,3 +446,30 @@ class Bug(Parent_class):
                         tree_list.remove(tree)
                         tree.kill()
                         self.kill()
+
+class Palm(Parent_class):
+    def __init__(self, pikt, size_x, size_y, pos_x, pos_y, health):
+        super().__init__(pikt, size_x, size_y, pos_x, pos_y, health)
+        self.image = pygame.transform.scale(pygame.image.load(pikt).convert_alpha(), (size_x, size_y))
+        self.rect = self.image.get_rect()
+        self.rect.x = pos_x
+        self.rect.y = pos_y
+        self.mask = pygame.mask.from_surface(self.image)
+        self.start_time2 = tm.time()
+        self.amount = 50
+
+    def exploshen(self):
+        for tree in tree_list:
+            for enemy in enemy_list:
+                if (self.rect.height * 3) >= (self.rect.y - enemy.rect.centery) and (enemy.rect.centery - self.rect.y) <= (self.rect.height * 3):
+                    if (self.rect.x - enemy.rect.centerx) <= 390:
+                        if enemy in enemy_list:
+                            tree_list.remove(tree)
+                            enemy_list.remove(enemy)
+                            tree.kill()
+                            enemy.kill()
+                            self.kill()
+
+    def update(self):
+        if tm.time() - self.start_time2 >= 1:
+            self.exploshen()

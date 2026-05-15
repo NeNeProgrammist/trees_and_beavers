@@ -14,7 +14,8 @@ from classes import (
     Sun as sun_class,
     Oak as oak_class,
     Bug as bug_class,
-    play
+    play,
+    Palm as palm_class
 )
 screen_x = 1550
 screen_y = 800
@@ -35,10 +36,9 @@ tree_list = []
 
 beaver_kill_count = 0 #D?
 
-
 beavers = pygame.sprite.Group()
 
-shoting = False
+shoting = False #D
 
 sun_amount = 1300
 
@@ -49,11 +49,15 @@ seed1 = seed_class("sprites/seed1.png", 60, 60, 60, 400, 1000, 1)
 
 seed_oak = seed_class("sprites/oak1.png", 60, 60, 60, 330, 1000, 2)
 
+seed_palm = seed_class("sprites/seed2.png", 60, 60, 60, 260, 1000, 3)
+
+
 seeds = pygame.sprite.Group()
 seeds_pakages = pygame.sprite.Group()
 
 seeds_pakages.add(seed1)
 seeds_pakages.add(seed_oak)
+seeds_pakages.add(seed_palm)
 
 trees = pygame.sprite.Group()
 enemy_list = []
@@ -65,7 +69,7 @@ shovels.add(shovel1)
 f2 = pygame.font.SysFont('Caladea', 36)
 text2 = f2.render(f"{sun_amount}", True, (252, 236, 0))
 
-sun_ikon = shovel("sprites/sun.png", 50, 50, 100, 15, 100000)
+sun_ikon = shovel("sprites/sun1.png", 50, 50, 100, 15, 100000)
 
 woodpeckers = pygame.sprite.Group()
 
@@ -75,6 +79,7 @@ suns = pygame.sprite.Group()
 
 oaks = pygame.sprite.Group()
 
+palms = pygame.sprite.Group()
 
 bugs = pygame.sprite.Group()
 
@@ -155,7 +160,39 @@ while runing:
                 play = True
                 enemy_list.clear()
                 tree_list.clear()
-                
+                for tree_kill in trees:
+                    tree_kill.kill()
+                for oak_kill in oaks:
+                    oak_kill.kill()
+                for beaver_kill in beavers:
+                    beaver_kill.kill()
+                for woodpicker_kill in woodpeckers:
+                    woodpicker_kill.kill()
+                for bug_kill in bugs:
+                    bug_kill.kill()
+                for bullet_kill in bullets_enemy:
+                    bullet_kill.kill()
+                for bullet_kill2 in bullets_trees:
+                    bullet_kill2.kill()
+                for sun_kill in suns:
+                    sun_kill.kill()
+                curent_seed = None
+                last_seed_time = tm.time()
+                shovel2 = None
+                wave_flag = False
+                wave_beaver_road = random.randint(1, 5)
+                wave_woodpecker_road = random.randint(1, 5)
+                sun_spawn_time = tm.time()
+                wave_time = tm.time()
+                beaver_wawe_count = 5
+                woodpecker_wave_count = 1
+                bug_spawn_time = tm.time()
+                bug_road = random.randint(1, 5)
+                beaver_road = random.randint(1, 5)
+                woodpecker_road = random.randint(1, 5)
+                sun_amount = 1300
+                text2 = f2.render(f"{sun_amount}", True, (252, 236, 0))
+
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             for seed in seeds_pakages:
@@ -183,6 +220,13 @@ while runing:
                                     oaks.add(oak2)
                                     tree_list.append(oak2)
                                     sun_amount -= 50
+                                else:
+                                    break
+                            elif curent_seed.tree_number == 3:
+                                if sun_amount >= 150:
+                                    palm1 = palm_class("sprites/tree2.png", 100, 100, tree_x, tree_y, 100000)
+                                    palms.add(palm1)
+                                    sun_amount -= 150
                                 else:
                                     break
                             f2 = pygame.font.SysFont('Caladea', 36)
@@ -246,8 +290,12 @@ while runing:
         anim_exp_groop.draw(screen)
         anim_exp_groop.update()
 
+        palms.draw(screen)
+        for palm in palms:
+            palm.update()
+
         if tm.time() - sun_spawn_time >= 15:
-            sun2 = sun_class("sprites/sun.png", 50, 50, random.randint(100, 1000), -100, 10, 1, random.randint(200, 700))
+            sun2 = sun_class("sprites/sun1.png", 50, 50, random.randint(100, 1000), -100, 10, 1, random.randint(200, 700))
             suns.add(sun2)
             sun_spawn_time = tm.time()
 
