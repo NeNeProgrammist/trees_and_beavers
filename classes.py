@@ -455,21 +455,19 @@ class Palm(Parent_class):
         self.rect.x = pos_x
         self.rect.y = pos_y
         self.mask = pygame.mask.from_surface(self.image)
-        self.start_time2 = tm.time()
+        self.start_time3 = tm.time()
         self.amount = 50
 
     def exploshen(self):
-        for tree in tree_list:
-            for enemy in enemy_list:
-                if (self.rect.height * 3) >= (self.rect.y - enemy.rect.centery) and (enemy.rect.centery - self.rect.y) <= (self.rect.height * 3):
-                    if (self.rect.x - enemy.rect.centerx) <= 390:
-                        if enemy in enemy_list:
-                            tree_list.remove(tree)
-                            enemy_list.remove(enemy)
-                            tree.kill()
-                            enemy.kill()
-                            self.kill()
+        #for tree in tree_list:
+        for enemy in enemy_list[:]:
+            if (self.rect.y - 130) <= enemy.rect.y <= (self.rect.y + 130):
+                if (self.rect.x - 110) <= enemy.rect.x <= (self.rect.x + 130):
+                    enemy_list.remove(enemy)
+                    enemy.kill()
+        self.kill()
 
     def update(self):
-        if tm.time() - self.start_time2 >= 1:
+        if tm.time() - self.start_time3 >= 1:
+            self.start_time3 = tm.time()
             self.exploshen()

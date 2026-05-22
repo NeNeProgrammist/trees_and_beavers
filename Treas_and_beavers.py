@@ -224,7 +224,7 @@ while runing:
                                     break
                             elif curent_seed.tree_number == 3:
                                 if sun_amount >= 150:
-                                    palm1 = palm_class("sprites/tree2.png", 100, 100, tree_x, tree_y, 100000)
+                                    palm1 = palm_class("sprites/palm.png", 80, 100, tree_x, tree_y, 1)
                                     palms.add(palm1)
                                     sun_amount -= 150
                                 else:

@@ -485,9 +485,6 @@
         <mxCell id="YJTQHph-is9RlrFpBO20-1" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="1) растение, которое даёт солнце&lt;div&gt;2) растение, которое взрывается(сразу или при наступлении)&lt;/div&gt;&lt;div&gt;3) замедляющие растение&lt;/div&gt;" vertex="1">
           <mxGeometry height="30" width="310" x="-660" y="410" as="geometry" />
         </mxCell>
-        <mxCell id="YJTQHph-is9RlrFpBO20-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="исправить баг со взрывом нового дерева" vertex="1">
-          <mxGeometry height="60" width="120" x="60" y="1020" as="geometry" />
-        </mxCell>
         <mxCell id="YJTQHph-is9RlrFpBO20-3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="убрать лишние файлы&amp;nbsp;" vertex="1">
           <mxGeometry height="60" width="120" x="60" y="855" as="geometry" />
         </mxCell>
@@ -495,10 +492,10 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="YJTQHph-is9RlrFpBO20-4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="исправить баг с взровом нового растения" vertex="1">
-          <mxGeometry height="60" width="120" x="60" y="1100" as="geometry" />
+          <mxGeometry height="60" width="120" x="680" y="4900" as="geometry" />
         </mxCell>
         <mxCell id="YJTQHph-is9RlrFpBO20-5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="взрываются, когда не в зоне взрыва из взрываются, когда в зоне взрыва" vertex="1">
-          <mxGeometry height="60" width="120" x="-170" y="1100" as="geometry" />
+          <mxGeometry height="60" width="120" x="670" y="5010" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
