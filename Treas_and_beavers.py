@@ -83,6 +83,10 @@ palms = pygame.sprite.Group()
 
 bugs = pygame.sprite.Group()
 
+kokoses = pygame.sprite.Group()
+
+enemys = pygame.sprite.Group()
+
 beaver_road = random.randint(1, 5)
 woodpecker_road = random.randint(1, 5)
 
@@ -316,6 +320,9 @@ while runing:
         beavers.draw(screen)
         beavers.update()
 
+        kokoses.draw(screen)
+        kokoses.update()
+
         woodpeckers.draw(screen)
         woodpeckers.update()  # Обновляем дятлов каждый кадр
 
@@ -354,22 +361,27 @@ while runing:
                 beaver2 = beaver_class("sprites/beaver2.png", 90, 50, 1050, 130, 2, 2, False, False)
                 beavers.add(beaver2)
                 enemy_list.append(beaver2)
+                enemys.add(beaver2)
             if beaver_road == 2:
                 beaver3 = beaver_class("sprites/beaver2.png", 90, 50, 1050, 257, 2, 2, False, False)
                 beavers.add(beaver3)
                 enemy_list.append(beaver3)
+                enemys.add(beaver3)
             if beaver_road == 3:
                 beaver4 = beaver_class("sprites/beaver2.png", 90, 50, 1050, 384, 2, 2, False, False)
                 beavers.add(beaver4)
                 enemy_list.append(beaver4)
+                enemys.add(beaver4)
             if beaver_road == 4:
                 beaver5 = beaver_class("sprites/beaver2.png", 90, 50, 1050, 511, 2, 2, False, False)
                 beavers.add(beaver5)
                 enemy_list.append(beaver5)
+                enemys.add(beaver5)
             if beaver_road == 5:
                 beaver6 = beaver_class("sprites/beaver2.png", 90, 50, 1050, 638, 2, 2, False, False)
                 beavers.add(beaver6)
                 enemy_list.append(beaver6)
+                enemys.add(beaver6)
                 
             beaver_road = random.randint(1, 5)
             start_time = tm.time()
@@ -379,23 +391,27 @@ while runing:
                 woodpecker2 = woodpecker_class("sprites/woodpicker1.png", 45, 75, 1650, 130, 6, 2)
                 woodpeckers.add(woodpecker2)
                 enemy_list.append(woodpecker2)
+                enemys.add(woodpecker2)
             if woodpecker_road == 2:
                 woodpecker3 = woodpecker_class("sprites/woodpicker1.png", 45, 75, 1650, 257, 6, 2)
                 woodpeckers.add(woodpecker3)
                 enemy_list.append(woodpecker3)
+                enemys.add(woodpecker3)
             if woodpecker_road == 3:
                 woodpecker4 = woodpecker_class("sprites/woodpicker1.png", 45, 75, 1650, 384, 6, 2)
                 woodpeckers.add(woodpecker4)
                 enemy_list.append(woodpecker4)
+                enemys.add(woodpecker4)
             if woodpecker_road == 4:
                 woodpecker5 = woodpecker_class("sprites/woodpicker1.png", 45, 75, 1650, 511, 6, 2)
                 woodpeckers.add(woodpecker5)
                 enemy_list.append(woodpecker5)
+                enemys.add(woodpecker5)
             if woodpecker_road == 5:
                 woodpecker6 = woodpecker_class("sprites/woodpicker1.png", 45, 75, 1650, 638, 6, 2)
                 woodpeckers.add(woodpecker6)
                 enemy_list.append(woodpecker6)
-
+                enemys.add(woodpecker6)
             woodpecker_road = random.randint(1, 5)
             woodpecker_spawn_time = tm.time()
 
@@ -403,22 +419,27 @@ while runing:
             if bug_road == 1:
                 bug2 = bug_class("sprites/bug1.png", 45, 75, 1650, 130, 6, 12, False)
                 bugs.add(bug2)
+                enemys.add(bug2)
                 enemy_list.append(bug2)
             if bug_road == 2:
                 bug2 = bug_class("sprites/bug1.png", 45, 75, 1650, 257, 6, 12, False)
                 bugs.add(bug2)
                 enemy_list.append(bug2)
+                enemys.add(bug2)
             if bug_road == 3:
                 bug2 = bug_class("sprites/bug1.png", 45, 75, 1650, 384, 6, 12, False)
                 bugs.add(bug2)
                 enemy_list.append(bug2)
+                enemys.add(bug2)
             if bug_road == 4:
                 bug2 = bug_class("sprites/bug1.png", 45, 75, 1650, 511, 6, 12, False)
                 bugs.add(bug2)
                 enemy_list.append(bug2)
+                enemys.add(bug2)
             if bug_road == 5:
                 bug2 = bug_class("sprites/bug1.png", 45, 75, 1650, 638, 6, 12, False)
                 bugs.add(bug2)
+                enemys.add(bug2)
                 enemy_list.append(bug2)
 
             bug_road = random.randint(1, 5)
@@ -434,22 +455,27 @@ while runing:
                     beaver2 = beaver_class("sprites/beaver2.png", 90, 50, random.randint(1650, 1850), 130, 2, 2, False, False)
                     beavers.add(beaver2)
                     enemy_list.append(beaver2)
+                    enemys.add(beaver2)
                 if wave_beaver_road == 2:
                     beaver3 = beaver_class("sprites/beaver2.png", 90, 50, random.randint(1650, 1850), 257, 2, 2, False, False)
                     beavers.add(beaver3)
                     enemy_list.append(beaver3)
+                    enemys.add(beaver3)
                 if wave_beaver_road == 3:
                     beaver4 = beaver_class("sprites/beaver2.png", 90, 50, random.randint(1650, 1850), 384, 2, 2, False, False)
                     beavers.add(beaver4)
                     enemy_list.append(beaver4)
+                    enemys.add(beaver4)
                 if wave_beaver_road == 4:
                     beaver5 = beaver_class("sprites/beaver2.png", 90, 50, random.randint(1650, 1850), 511, 2, 2, False, False)
                     beavers.add(beaver5)
                     enemy_list.append(beaver5)
+                    enemys.add(beaver5)
                 if wave_beaver_road == 5:
                     beaver6 = beaver_class("sprites/beaver2.png", 90, 50, random.randint(1650, 1850), 638, 2, 2, False, False)
                     beavers.add(beaver6)
                     enemy_list.append(beaver6)
+                    enemys.add(beaver6)
                     
                 wave_beaver_road = random.randint(1, 5)
             if beaver_wawe_count >= 6:
@@ -457,6 +483,7 @@ while runing:
                     woodpecker4 = woodpecker_class("sprites/woodpicker1.png", 45, 75, 1650, random.randint(130, 638), 6, 2)
                     woodpeckers.add(woodpecker4)
                     enemy_list.append(woodpecker4)
+                    enemys.add(woodpecker4)
                 if beaver_wawe_count % 2 == 0:
                     woodpecker_wave_count += 1
 
@@ -465,6 +492,7 @@ while runing:
                     bug3 = bug_class("sprites/bug1.png", 45, 75, 1650, kord_list[random.randint(1, len(kord_list) - 1)], 6, 12, False)
                     bugs.add(bug3)
                     enemy_list.append(bug3)
+                    enemys.add(bug3)
 
             beaver_wawe_count += 1
             wave_flag = False
@@ -503,6 +531,11 @@ while runing:
             collide_oak.health -= 1
             exp = anim_exploushen(collide_oak.rect.x + 20, collide_oak.rect.y, 50, 50)
             anim_exp_groop.add(exp)
+
+        collies_kokoses = pygame.sprite.groupcollide(enemys, kokoses, True, True)
+        for collide_kokos in collies_kokoses:
+            collide_kokos.kill()
+            enemy_list.remove(collide_kokos)
 
     else:
         screen.blit(text1, (700, 390))

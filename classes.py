@@ -447,6 +447,40 @@ class Bug(Parent_class):
                         tree.kill()
                         self.kill()
 
+enemy_way = {}
+
+class Kokos(Parent_class):
+    def __init__(self, pikt, size_x, size_y, pos_x, pos_y, health):
+        super().__init__(pikt, size_x, size_y, pos_x, pos_y, health)
+        self.image = pygame.transform.scale(pygame.image.load(pikt).convert_alpha(), (size_x, size_y))
+        self.rect = self.image.get_rect()
+        self.rect.x = pos_x
+        self.rect.y = pos_y
+        self.mask = pygame.mask.from_surface(self.image)
+        self.find_flag = True
+
+    def find_enemy(self):
+        if self.fing_flag == True:
+            for enemy in enemy_list[:]:
+                if (self.rect.y - 130) <= enemy.rect.y <= (self.rect.y + 130):
+                    if (self.rect.x - 110) <= enemy.rect.x <= (self.rect.x + 130):
+                        enemy_way[self] = enemy
+                        self.find_flag = False 
+
+
+    def update(self):
+        self.find_enemy()
+        enemy_find = enemy_way[self]
+        if self.rect.x > enemy_find.rect.x:
+            self.rect.x -= 5
+        if self.rect.x < enemy_find.rect.x:
+            self.rect.x += 5
+        if self.rect.y > enemy_find.rect.y:
+            self.rect.y -= 5
+        if self.rect.y < enemy_find.rect.y:
+            self.rect.y += 5
+        
+
 class Palm(Parent_class):
     def __init__(self, pikt, size_x, size_y, pos_x, pos_y, health):
         super().__init__(pikt, size_x, size_y, pos_x, pos_y, health)
@@ -463,8 +497,7 @@ class Palm(Parent_class):
         for enemy in enemy_list[:]:
             if (self.rect.y - 130) <= enemy.rect.y <= (self.rect.y + 130):
                 if (self.rect.x - 110) <= enemy.rect.x <= (self.rect.x + 130):
-                    enemy_list.remove(enemy)
-                    enemy.kill()
+                    kokos1 = Kokos("sprites/kokos.png", 50, 50, self.rect.x, self.rect.y, 111111)
         self.kill()
 
     def update(self):
