@@ -15,10 +15,13 @@ from classes import (
     Oak as oak_class,
     Bug as bug_class,
     play,
-    Palm as palm_class
+    Palm as palm_class,
+    kokoses as kokoses
 )
 screen_x = 1550
 screen_y = 800
+
+classes.kokoses = kokoses
 
 start_time = tm.time()
 
@@ -82,8 +85,6 @@ oaks = pygame.sprite.Group()
 palms = pygame.sprite.Group()
 
 bugs = pygame.sprite.Group()
-
-kokoses = pygame.sprite.Group()
 
 enemys = pygame.sprite.Group()
 
@@ -322,6 +323,8 @@ while runing:
 
         kokoses.draw(screen)
         kokoses.update()
+        for pal in palms:
+            print(len(kokoses), "len", pal.enemies_in_range, "enemues")
 
         woodpeckers.draw(screen)
         woodpeckers.update()  # Обновляем дятлов каждый кадр

@@ -449,37 +449,32 @@ class Bug(Parent_class):
 
 enemy_way = {}
 
+kokoses = pygame.sprite.Group()
+
 class Kokos(Parent_class):
-    def __init__(self, pikt, size_x, size_y, pos_x, pos_y, health):
+    def __init__(self, pikt, size_x, size_y, pos_x, pos_y, health, target):
         super().__init__(pikt, size_x, size_y, pos_x, pos_y, health)
         self.image = pygame.transform.scale(pygame.image.load(pikt).convert_alpha(), (size_x, size_y))
         self.rect = self.image.get_rect()
         self.rect.x = pos_x
         self.rect.y = pos_y
         self.mask = pygame.mask.from_surface(self.image)
-        self.find_flag = True
-
-    def find_enemy(self):
-        if self.fing_flag == True:
-            for enemy in enemy_list[:]:
-                if (self.rect.y - 130) <= enemy.rect.y <= (self.rect.y + 130):
-                    if (self.rect.x - 110) <= enemy.rect.x <= (self.rect.x + 130):
-                        enemy_way[self] = enemy
-                        self.find_flag = False 
-
+        self.target = target
+        self.speed = 5
 
     def update(self):
-        self.find_enemy()
-        enemy_find = enemy_way[self]
-        if self.rect.x > enemy_find.rect.x:
-            self.rect.x -= 5
-        if self.rect.x < enemy_find.rect.x:
-            self.rect.x += 5
-        if self.rect.y > enemy_find.rect.y:
-            self.rect.y -= 5
-        if self.rect.y < enemy_find.rect.y:
-            self.rect.y += 5
-        
+        if self.target is None or self.target.health <= 0 or self.target not in enemy_list:
+            self.kill()
+            return
+
+        dx = self.target.rect.centerx - self.rect.centerx
+        dy = self.target.rect.centery - self.rect.centery
+        distance = (dx**2 + dy**2) ** 0.5
+        if distance > 0:
+            dx /= distance
+            dy /= distance
+            self.rect.x += dx * self.speed
+            self.rect.y += dy * self.speed
 
 class Palm(Parent_class):
     def __init__(self, pikt, size_x, size_y, pos_x, pos_y, health):
@@ -489,18 +484,25 @@ class Palm(Parent_class):
         self.rect.x = pos_x
         self.rect.y = pos_y
         self.mask = pygame.mask.from_surface(self.image)
-        self.start_time3 = tm.time()
-        self.amount = 50
-
-    def exploshen(self):
-        #for tree in tree_list:
-        for enemy in enemy_list[:]:
-            if (self.rect.y - 130) <= enemy.rect.y <= (self.rect.y + 130):
-                if (self.rect.x - 110) <= enemy.rect.x <= (self.rect.x + 130):
-                    kokos1 = Kokos("sprites/kokos.png", 50, 50, self.rect.x, self.rect.y, 111111)
-        self.kill()
+        self.spawn_time = tm.time() 
+        self.delay = 1.0
+        self.has_shot = False
+        self.enemies_in_range = []
 
     def update(self):
-        if tm.time() - self.start_time3 >= 1:
-            self.start_time3 = tm.time()
-            self.exploshen()
+        if not self.has_shot:
+            if tm.time() - self.spawn_time < self.delay:
+                return
+
+            for enemy in enemy_list:
+                if (self.rect.centery - 130) <= enemy.rect.centery <= (self.rect.centery + 130):
+                    if (self.rect.centerx - 110) <= enemy.rect.centerx <= (self.rect.centerx + 130):
+                        self.enemies_in_range.append(enemy)
+
+            for enemy in self.enemies_in_range:
+                if kokoses is not None:
+                    kokos = Kokos("sprites/kokos.png", 25, 25, self.rect.centerx - 12, self.rect.centery - 12, 111111, enemy)
+                    kokoses.add(kokos)
+
+            self.has_shot = True
+            self.kill()

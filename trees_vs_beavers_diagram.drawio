@@ -497,6 +497,9 @@
         <mxCell id="YJTQHph-is9RlrFpBO20-5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="взрываются, когда не в зоне взрыва из взрываются, когда в зоне взрыва" vertex="1">
           <mxGeometry height="60" width="120" x="670" y="5010" as="geometry" />
         </mxCell>
+        <mxCell id="BAo5hxeAbEYHVfUJas1M-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="разобраться с кокосом и его полётом" vertex="1">
+          <mxGeometry height="60" width="120" x="60" y="1020" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
