@@ -477,32 +477,67 @@ class Kokos(Parent_class):
             self.rect.y += dy * self.speed
 
 class Palm(Parent_class):
-    def __init__(self, pikt, size_x, size_y, pos_x, pos_y, health):
+    def __init__(self, pikt, size_x, size_y, pos_x, pos_y, health, a=0):
         super().__init__(pikt, size_x, size_y, pos_x, pos_y, health)
         self.image = pygame.transform.scale(pygame.image.load(pikt).convert_alpha(), (size_x, size_y))
         self.rect = self.image.get_rect()
         self.rect.x = pos_x
         self.rect.y = pos_y
         self.mask = pygame.mask.from_surface(self.image)
-        self.spawn_time = tm.time() 
-        self.delay = 1.0
+        self.spawn_time = tm.time()
+        self.delay = 1.0          # стоит 1 секунду
         self.has_shot = False
-        self.enemies_in_range = []
 
     def update(self):
         if not self.has_shot:
             if tm.time() - self.spawn_time < self.delay:
                 return
 
+            cell_w = 117
+            cell_h = 127
+            radius_x = int(1.5 * cell_w)   # 175
+            radius_y = int(1.5 * cell_h)   # 190
+            enemies_in_range = []
             for enemy in enemy_list:
-                if (self.rect.centery - 130) <= enemy.rect.centery <= (self.rect.centery + 130):
-                    if (self.rect.centerx - 110) <= enemy.rect.centerx <= (self.rect.centerx + 130):
-                        self.enemies_in_range.append(enemy)
+                if (self.rect.centery - radius_y) <= enemy.rect.centery <= (self.rect.centery + radius_y):
+                    if (self.rect.centerx - radius_x) <= enemy.rect.centerx <= (self.rect.centerx + radius_x):
+                        enemies_in_range.append(enemy)
 
-            for enemy in self.enemies_in_range:
+            for enemy in enemies_in_range:
                 if kokoses is not None:
                     kokos = Kokos("sprites/kokos.png", 25, 25, self.rect.centerx - 12, self.rect.centery - 12, 111111, enemy)
                     kokoses.add(kokos)
 
             self.has_shot = True
+            self.kill()
+
+class Anim_tree(pygame.sprite.Sprite):
+    def __init__(self, x, y, size_x, size_y):
+        pygame.sprite.Sprite.__init__(self)
+        self.images = []
+        self.size_x = size_x
+        self.size_y = size_y
+        for num in range(1, 7):
+            img = pygame.image.load(f"explou_trees/anim_tree{num}.png")
+            img = pygame.transform.scale(img, (size_x, size_y))
+            self.images.append(img)
+        self.index = 0
+        self.image = self.images[self.index]
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+        self.counter = 0
+          
+    def update(self):
+        explosion_speed = 6
+        #update explosion animation
+        self.counter += 1
+
+        if self.counter >= explosion_speed and self.index < len(self.images) - 1:
+            self.counter = 0
+            self.index += 1
+            self.image = self.images[self.index]
+
+        #if the animation is complete, reset animation index
+        if self.index >= len(self.images) - 1 and self.counter >= explosion_speed:
             self.kill()

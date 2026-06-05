@@ -16,7 +16,8 @@ from classes import (
     Bug as bug_class,
     play,
     Palm as palm_class,
-    kokoses as kokoses
+    kokoses as kokoses,
+    Anim_tree as anim_tree
 )
 screen_x = 1550
 screen_y = 800
@@ -292,6 +293,12 @@ while runing:
 
         sun_ikon.reset()
 
+        oaks.draw(screen)
+        for oak in oaks:
+            oak.health1()
+
+
+
         anim_exp_groop.draw(screen)
         anim_exp_groop.update()
 
@@ -323,8 +330,8 @@ while runing:
 
         kokoses.draw(screen)
         kokoses.update()
-        for pal in palms:
-            print(len(kokoses), "len", pal.enemies_in_range, "enemues")
+        '''for pal in palms:
+            print(len(kokoses), "len", pal.enemies_in_range, "enemues")'''
 
         woodpeckers.draw(screen)
         woodpeckers.update()  # Обновляем дятлов каждый кадр
@@ -352,10 +359,6 @@ while runing:
 
         bugs.draw(screen)
         bugs.update()
-
-        oaks.draw(screen)
-        for oak in oaks:
-            oak.health1()
 
         screen.blit(grid_syrface, (0, 0))
 
@@ -508,7 +511,7 @@ while runing:
         collies_enemys = pygame.sprite.groupcollide(trees, bullets_enemy, False, True)
         for collide_enemy in collies_enemys:
             collide_enemy.health -= 2
-            exp = anim_exploushen(collide_enemy.rect.x + 20, collide_enemy.rect.y, 50, 50)
+            exp = anim_tree(collide_enemy.rect.x + random.randint(20, 40), collide_enemy.rect.y + random.randint(10, 30), 50, 50)
             anim_exp_groop.add(exp)
 
         collies_trees = pygame.sprite.groupcollide(beavers, bullets_trees, False, True)
@@ -532,13 +535,20 @@ while runing:
         collies_oaks = pygame.sprite.groupcollide(oaks, bullets_enemy, False, True)
         for collide_oak in collies_oaks:
             collide_oak.health -= 1
-            exp = anim_exploushen(collide_oak.rect.x + 20, collide_oak.rect.y, 50, 50)
+            exp = anim_tree(collide_oak.rect.x + random.randint(20, 40), collide_oak.rect.y + random.randint(10, 30), 50, 50)
             anim_exp_groop.add(exp)
 
         collies_kokoses = pygame.sprite.groupcollide(enemys, kokoses, True, True)
         for collide_kokos in collies_kokoses:
             collide_kokos.kill()
             enemy_list.remove(collide_kokos)
+            if collide_kokos in beavers:
+                beavers.remove(collide_kokos)   
+            elif collide_kokos in woodpeckers:
+                woodpeckers.remove(collide_kokos)
+            elif collide_kokos in bugs:
+                bugs.remove(collide_kokos)
+
 
     else:
         screen.blit(text1, (700, 390))
