@@ -19,6 +19,8 @@ from classes import (
     kokoses as kokoses,
     Anim_tree as anim_tree
 )
+import pygame_gui
+
 screen_x = 1550
 screen_y = 800
 
@@ -30,6 +32,8 @@ pygame.init()
 
 screen = pygame.display.set_mode((screen_x, screen_y), vsync = 1)
 backgraund = pygame.transform.scale(pygame.image.load("sprites/fon3_4.png").convert_alpha(), (screen_x, screen_y))
+
+manager = pygame_gui.UIManager((1550, 800))
 
 clock = pygame.time.Clock()
 
@@ -47,7 +51,7 @@ shoting = False #D
 sun_amount = 1300
 
 f1 = pygame.font.SysFont('Caladea', 36)
-text1 = f1.render("You lose", True, (0, 0, 0))
+text1 = f1.render("You lose", True, (0, 255, 0))
 
 seed1 = seed_class("sprites/seed1.png", 60, 60, 60, 400, 1000, 1)
 
@@ -131,6 +135,25 @@ def get_cell_center(cell_rect):
     """возвращает координаты центра клетки для посадки дерева"""
     return cell_rect.left, cell_rect.top
 
+button = pygame_gui.elements.UIButton(
+    relative_rect=pygame.Rect((350, 275), (-1, -1)),
+    text="Menu",
+    manager=manager
+)
+
+def create_main_buttons():
+    global button, button2
+    button = pygame_gui.elements.UIButton(
+        relative_rect=pygame.Rect((350, 275), (-1, -1)),
+        text="Menu",
+        manager=manager
+    )
+
+def destroy_main_buttons():
+    global button
+    button.kill()
+    button = None
+
 curent_seed = None
 last_seed_time = tm.time()
 shovel2 = None
@@ -144,6 +167,8 @@ woodpecker_wave_count = 1
 bug_spawn_time = tm.time()
 bug_road = random.randint(1, 5)
 kord_list = [130, 257, 384, 511, 638]
+menu = True
+menu_buttons = []
 
 # Синхронизация глобальных переменных с модулем classes
 classes.tree_list = tree_list
@@ -156,9 +181,77 @@ classes.screen = screen
 classes.play = play
 classes.beaver_kill_count = beaver_kill_count
 
+'''def update_dropdown():
+    global dropdown
+    if dropdown is not None:
+        dropdown.kill()
+        dropdown = None
+    if rect_flag:
+        options = [
+            f"kooficient: {kooficient}",
+            f"clicks: {clicks}",
+            f"norma: {norma}"
+        ]
+        dropdown = pygame_gui.elements.UIDropDownMenu(
+            options_list=options,
+            starting_option=options[0],
+            relative_rect=pygame.Rect((320, 390), (150, 50)),
+            manager=manager
+        )
+        menu_buttons.append(dropdown)
+
+def on_values_changed():
+    update_dropdown()
+'''
 runing = True
 while runing:
     for event in pygame.event.get():
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_m:
+                if not rect_flag:
+                    rect_flag = True
+                    destroy_main_buttons()
+                    for btn in menu_buttons:
+                        btn.kill()
+                    menu_buttons.clear()
+
+                    btn3 = pygame_gui.elements.UIButton(
+                        relative_rect=pygame.Rect((320, 205), (150, 50)),
+                        text="New game",
+                        manager=manager
+                    )
+                    btn5 = pygame_gui.elements.UIButton(
+                        relative_rect=pygame.Rect((320, 270), (150, 50)),
+                        text="Close game",
+                        manager=manager
+                    )
+                    btn4 = pygame_gui.elements.UIButton(
+                        relative_rect=pygame.Rect((320, 335), (150, 50)),
+                        text="Titles",
+                        manager=manager
+                    )
+                    menu_buttons.extend([btn3, btn5, btn4])
+                    #update_dropdown()
+
+        if event.type == pygame_gui.UI_BUTTON_PRESSED:
+            if btn3 is not None and event.ui_element == btn3:
+                play = True
+                #on_values_changed()
+            
+            elif event.ui_element in menu_buttons:
+                if event.ui_element.text == "Закрыть кликер":
+                    running = False
+
+                elif event.ui_element.text == "Закрыть меню":
+                    rect_flag = False
+                    for btn in menu_buttons:
+                        btn.kill()
+                    menu_buttons.clear()
+                    if dropdown is not None:
+                        dropdown.kill()
+                        dropdown = None
+                    create_main_buttons()
+                    
         if event.type == pygame.QUIT:
             runing = False
         if event.type == pygame.KEYDOWN:
@@ -296,8 +389,6 @@ while runing:
         oaks.draw(screen)
         for oak in oaks:
             oak.health1()
-
-
 
         anim_exp_groop.draw(screen)
         anim_exp_groop.update()

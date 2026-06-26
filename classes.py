@@ -8,7 +8,7 @@ bullets_enemy = None
 bullets_trees = None
 anim_exp_groop = None
 screen = None
-play = True
+play = False
 beaver_kill_count = 0
 
 class Parent_class(pygame.sprite.Sprite):
