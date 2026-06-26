@@ -1,4 +1,4 @@
-<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.1 Chrome/142.0.7444.265 Electron/39.8.0 Safari/537.36" version="29.6.1">
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.1 Chrome/142.0.7444.265 Electron/39.8.0 Safari/537.36" version="29.6.1" pages="2">
   <diagram name="Страница — 1" id="tIC_WZ9eXxZFpHUOUbRm">
     <mxGraphModel dx="1869" dy="634" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="1">
       <root>
@@ -465,13 +465,13 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="jloX-oVDJPi1YEL1iOu--1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Анимации разных объектов" vertex="1">
-          <mxGeometry height="60" width="120" x="354" y="990" as="geometry" />
+          <mxGeometry height="60" width="120" x="680" y="5360" as="geometry" />
         </mxCell>
         <mxCell id="jloX-oVDJPi1YEL1iOu--4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="подобрать картинки для анимации попадания пуль в деревья" vertex="1">
           <mxGeometry height="60" width="120" x="685" y="5180" as="geometry" />
         </mxCell>
         <mxCell id="jloX-oVDJPi1YEL1iOu--6" parent="1" style="whiteSpace=wrap;html=1;rounded=0;" value="анимации для бобров, дятлов и жуков" vertex="1">
-          <mxGeometry height="60" width="120" x="354" y="1090" as="geometry" />
+          <mxGeometry height="60" width="120" x="680" y="5460" as="geometry" />
         </mxCell>
         <mxCell id="wCm-iU_mRhhbPux-Okyn-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;span style=&quot;color: rgb(51, 51, 51); font-family: Circe, sans-serif; font-size: 14px; text-align: left; white-space-collapse: preserve; background-color: rgb(236, 219, 255);&quot;&gt;ДЗ. Рефакторинг (оптимизация) кода. 1. Вынести части кода в отдельные модули. 2. Проверить, какие  функции или методы, а также переменные или свойства не используются и удалить их. Файлы картинок, музыки (если музыки нет, то создать пустую папку для неё) перенести в тематические папки. 3. Протестировать программу после рефакторинга.&lt;/span&gt;" vertex="1">
           <mxGeometry height="440" width="120" x="685" y="4350" as="geometry" />
@@ -480,7 +480,7 @@
           <mxGeometry height="60" width="120" x="685" y="4820" as="geometry" />
         </mxCell>
         <mxCell id="pNC4Oww_AkBOSS6O7Dci-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="сделать меню" vertex="1">
-          <mxGeometry height="60" width="120" x="60" y="940" as="geometry" />
+          <mxGeometry height="60" width="120" x="350" y="1010" as="geometry" />
         </mxCell>
         <mxCell id="YJTQHph-is9RlrFpBO20-1" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="1) растение, которое даёт солнце&lt;div&gt;2) растение, которое взрывается(сразу или при наступлении)&lt;/div&gt;&lt;div&gt;3) замедляющие растение&lt;/div&gt;" vertex="1">
           <mxGeometry height="30" width="310" x="-660" y="410" as="geometry" />
@@ -499,6 +499,54 @@
         </mxCell>
         <mxCell id="BAo5hxeAbEYHVfUJas1M-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="разобраться с кокосом и его полётом" vertex="1">
           <mxGeometry height="60" width="120" x="680" y="5100" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="7N3d74JkvknfXi6dmnUa" name="menu">
+    <mxGraphModel dx="1042" dy="634" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="qtyXBuoTKNMpeVtAka0f-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="480" width="576" x="100" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="qtyXBuoTKNMpeVtAka0f-13" edge="1" parent="1" source="qtyXBuoTKNMpeVtAka0f-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" target="qtyXBuoTKNMpeVtAka0f-7">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="220" y="340" />
+              <mxPoint x="220" y="525" />
+              <mxPoint x="221" y="525" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="qtyXBuoTKNMpeVtAka0f-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#a20025;strokeColor=#6F0000;fontColor=#ffffff;" value="Новая игра" vertex="1">
+          <mxGeometry height="60" width="120" x="310" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="qtyXBuoTKNMpeVtAka0f-4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#a20025;strokeColor=#6F0000;fontColor=#ffffff;" value="Выход" vertex="1">
+          <mxGeometry height="60" width="120" x="310" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="qtyXBuoTKNMpeVtAka0f-6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#a20025;strokeColor=#6F0000;fontColor=#ffffff;" value="Титры" vertex="1">
+          <mxGeometry height="60" width="120" x="310" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="qtyXBuoTKNMpeVtAka0f-7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="380" width="652" x="58" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="qtyXBuoTKNMpeVtAka0f-9" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#a20025;strokeColor=#6F0000;fontColor=#ffffff;" value="Продолжить" vertex="1">
+          <mxGeometry height="60" width="120" x="300" y="730" as="geometry" />
+        </mxCell>
+        <mxCell id="qtyXBuoTKNMpeVtAka0f-10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#a20025;strokeColor=#6F0000;fontColor=#ffffff;" value="Рестарта" vertex="1">
+          <mxGeometry height="60" width="120" x="300" y="830" as="geometry" />
+        </mxCell>
+        <mxCell id="qtyXBuoTKNMpeVtAka0f-12" edge="1" parent="1" source="qtyXBuoTKNMpeVtAka0f-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.75;entryY=1;entryDx=0;entryDy=0;" target="qtyXBuoTKNMpeVtAka0f-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="532" y="950" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="qtyXBuoTKNMpeVtAka0f-11" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#a20025;strokeColor=#6F0000;fontColor=#ffffff;" value="Выход в меню" vertex="1">
+          <mxGeometry height="60" width="120" x="300" y="920" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
